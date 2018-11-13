@@ -1,4 +1,4 @@
-package v1;
+package core;
 
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
