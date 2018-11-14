@@ -1,3 +1,3 @@
 # TweeagleCore
 
-Tweeagle RESTful Service developed in JAVA.
+Tweeagle Core
