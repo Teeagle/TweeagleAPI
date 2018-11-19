@@ -8,22 +8,25 @@ public class Tweet {
 	// DocumentID
 	private int docID;
 
+	// Tweet Attributes
 	private String created_at;
 	private String id;
 	private String text;
 
+	// Tweet Statistics
 	private int quoteCnt;
 	private int replyCnt;
 	private int retweetCnt;
 	private int favoriteCnt;
 
+	// User Meta Information
 	private String usertag;
-	private int verified;
-	private int friendsCnt; // Following
-	private int followersCnt;
-	private int favoritesCnt;
-	private int statusesCnt;
-	private String profileImgURL;
+	private boolean isVerified;
+	private int userFriendsCnt; // Following
+	private int userFollowersCnt;
+	private int userFavoritesCnt;
+	private int userStatusesCnt;
+	private String userProfileImgURL;
 
 	// Dictionary Holder
 	private TreeMap<String, TermInfo> dictionary;
@@ -33,7 +36,7 @@ public class Tweet {
 	}
 
 	public Tweet(int docID, String created_at, String id, String text, int quoteCnt, int replyCnt, int retweetCnt,
-			int favoriteCnt, String usertag, int verified, int friendsCnt, int followersCnt, int favoritesCnt,
+			int favoriteCnt, String usertag, boolean verified, int friendsCnt, int followersCnt, int favoritesCnt,
 			int statusesCnt, String profileImgURL) {
 		dictionary = new TreeMap<>();
 		this.docID = docID;
@@ -45,12 +48,12 @@ public class Tweet {
 		this.retweetCnt = retweetCnt;
 		this.favoriteCnt = favoriteCnt;
 		this.usertag = usertag;
-		this.verified = verified;
-		this.friendsCnt = friendsCnt;
-		this.followersCnt = followersCnt;
-		this.favoritesCnt = favoritesCnt;
-		this.statusesCnt = statusesCnt;
-		this.profileImgURL = profileImgURL;
+		this.isVerified = verified;
+		this.userFriendsCnt = friendsCnt;
+		this.userFollowersCnt = followersCnt;
+		this.userFavoritesCnt = favoritesCnt;
+		this.userStatusesCnt = statusesCnt;
+		this.userProfileImgURL = profileImgURL;
 	}
 
 	public String getCreated_at() {
@@ -117,52 +120,52 @@ public class Tweet {
 		this.usertag = usertag;
 	}
 
-	public int getVerified() {
-		return verified;
+	public boolean getIsVerified() {
+		return isVerified;
 	}
 
-	public void setVerified(int verified) {
-		this.verified = verified;
+	public void setIsVerified(boolean verified) {
+		this.isVerified = verified;
 	}
 
-	public int getFriendsCnt() {
-		return friendsCnt;
+	public int getUserFriendsCnt() {
+		return userFriendsCnt;
 	}
 
-	public void setFriendsCnt(int friendsCnt) {
-		this.friendsCnt = friendsCnt;
+	public void setUserFriendsCnt(int friendsCnt) {
+		this.userFriendsCnt = friendsCnt;
 	}
 
-	public int getFollowersCnt() {
-		return followersCnt;
+	public int getUserFollowersCnt() {
+		return userFollowersCnt;
 	}
 
-	public void setFollowersCnt(int followersCnt) {
-		this.followersCnt = followersCnt;
+	public void setUserFollowersCnt(int followersCnt) {
+		this.userFollowersCnt = followersCnt;
 	}
 
-	public int getFavoritesCnt() {
-		return favoritesCnt;
+	public int getUserFavoritesCnt() {
+		return userFavoritesCnt;
 	}
 
-	public void setFavoritesCnt(int favoritesCnt) {
-		this.favoritesCnt = favoritesCnt;
+	public void setUserFavoritesCnt(int favoritesCnt) {
+		this.userFavoritesCnt = favoritesCnt;
 	}
 
-	public int getStatusesCnt() {
-		return statusesCnt;
+	public int getUserStatusesCnt() {
+		return userStatusesCnt;
 	}
 
-	public void setStatusesCnt(int statusesCnt) {
-		this.statusesCnt = statusesCnt;
+	public void setUserStatusesCnt(int statusesCnt) {
+		this.userStatusesCnt = statusesCnt;
 	}
 
-	public String getProfileImgURL() {
-		return profileImgURL;
+	public String getUserProfileImgURL() {
+		return userProfileImgURL;
 	}
 
-	public void setProfileImgURL(String profileImgURL) {
-		this.profileImgURL = profileImgURL;
+	public void setUserProfileImgURL(String profileImgURL) {
+		this.userProfileImgURL = profileImgURL;
 	}
 
 	public int getDocID() {
@@ -177,9 +180,9 @@ public class Tweet {
 	public String toString() {
 		return "Tweet [docID=" + docID + ", created_at=" + created_at + ", id=" + id + ", text=" + text + ", quoteCnt="
 				+ quoteCnt + ", replyCnt=" + replyCnt + ", retweetCnt=" + retweetCnt + ", favoriteCnt=" + favoriteCnt
-				+ ", usertag=" + usertag + ", verified=" + verified + ", friendsCnt=" + friendsCnt + ", followersCnt="
-				+ followersCnt + ", favoritesCnt=" + favoritesCnt + ", statusesCnt=" + statusesCnt + ", profileImgURL="
-				+ profileImgURL + "]";
+				+ ", usertag=" + usertag + ", verified=" + isVerified + ", friendsCnt=" + userFriendsCnt + ", followersCnt="
+				+ userFollowersCnt + ", favoritesCnt=" + userFavoritesCnt + ", statusesCnt=" + userStatusesCnt + ", profileImgURL="
+				+ userProfileImgURL + "]";
 	}
 
 }
