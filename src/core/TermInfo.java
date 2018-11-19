@@ -26,6 +26,14 @@ public class TermInfo {
 	public void setPositions(ArrayList<Integer> positions) {
 		this.positions = positions;
 	}
+	
+	public void increaseTF() {
+		this.tf++;
+	}
+	
+	public void addPosition(int pos) {
+		this.positions.add(pos);
+	}
 
 	@Override
 	public String toString() {

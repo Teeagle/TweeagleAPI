@@ -180,9 +180,31 @@ public class Tweet {
 	public String toString() {
 		return "Tweet [docID=" + docID + ", created_at=" + created_at + ", id=" + id + ", text=" + text + ", quoteCnt="
 				+ quoteCnt + ", replyCnt=" + replyCnt + ", retweetCnt=" + retweetCnt + ", favoriteCnt=" + favoriteCnt
-				+ ", usertag=" + usertag + ", verified=" + isVerified + ", friendsCnt=" + userFriendsCnt + ", followersCnt="
-				+ userFollowersCnt + ", favoritesCnt=" + userFavoritesCnt + ", statusesCnt=" + userStatusesCnt + ", profileImgURL="
-				+ userProfileImgURL + "]";
+				+ ", usertag=" + usertag + ", verified=" + isVerified + ", friendsCnt=" + userFriendsCnt
+				+ ", followersCnt=" + userFollowersCnt + ", favoritesCnt=" + userFavoritesCnt + ", statusesCnt="
+				+ userStatusesCnt + ", profileImgURL=" + userProfileImgURL + "]";
+	}
+
+	/**
+	 * Add term to tweet local dictionary
+	 * 
+	 * @param token
+	 * @param pos
+	 */
+	public void addTerm(String token, int pos) {
+		if (dictionary.containsKey(token)) {
+			// if the key exists, update it
+			dictionary.get(token).increaseTF();
+			dictionary.get(token).addPosition(pos);
+		} else {
+			// if the key does not exist, add it
+			TermInfo info = new TermInfo();
+
+			info.setTf(1);
+			info.addPosition(pos);
+
+			dictionary.put(token, info);
+		}
 	}
 
 }
