@@ -3,12 +3,13 @@ package core;
 import twitter4j.conf.ConfigurationBuilder;
 import twitter4j.*;
 import twitter4j.json.DataObjectFactory;
-
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+
+import com.google.gson.JsonObject;
 
 /**
  * This is a crawler baby
@@ -33,7 +34,7 @@ public class Crawler {
         TwitterStreamFactory tsf = new TwitterStreamFactory(cb.build());
         this.twitterStream = tsf.getInstance();
         this.tweetBucketCapacity = 100; //default capacity
-        this.tweetBucketsCnt=553;
+        this.tweetBucketsCnt=733;
         this.tweetBucket = new ArrayList<>();
     }
 
