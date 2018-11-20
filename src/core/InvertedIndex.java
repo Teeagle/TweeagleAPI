@@ -1,12 +1,18 @@
 package core;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.StringTokenizer;
 import java.util.TreeMap;
 
-public class InvertedIndex {
+public class InvertedIndex implements Serializable {
 
 	// Dictionary Holder
 	private TreeMap<String, IndexTermInfo> dictionary;
@@ -68,21 +74,25 @@ public class InvertedIndex {
 			addDocument(tweets.get(i));
 		}
 
+		if (!MemoryManager.storeIndex(this)) {
+			System.err.println("[!] Failed to store index to memory.");
+			return false;
+		}
+
 		return true;
 
 	}
 
 	public boolean deleteDocument() {
+
+		if (!MemoryManager.storeIndex(this)) {
+			System.err.println("[!] Failed to store index to memory.");
+		}
+
 		return false;
 	}
 
-	public boolean storeIndex() {
-		return false;
-	}
-
-	public boolean loadIndex() {
-		return false;
-	}
+	
 
 	public void printIndex() {
 
@@ -90,13 +100,13 @@ public class InvertedIndex {
 
 	@Override
 	public String toString() {
-		
+
 		String lol = "";
-		
+
 		for (Entry<String, IndexTermInfo> entry : dictionary.entrySet()) {
-			lol = lol.concat(entry.getKey()+" "+entry.getValue()+" \n");
+			lol = lol.concat(entry.getKey() + " " + entry.getValue() + " \n");
 		}
-		
+
 		return lol;
 	}
 }

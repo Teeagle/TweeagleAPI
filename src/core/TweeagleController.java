@@ -3,6 +3,8 @@
  */
 package core;
 
+import java.io.FileInputStream;
+import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -17,7 +19,9 @@ public class TweeagleController {
 		crawler.crawl();
 	}
 
-	public static void runParser() {
+	public static void createIndex() {
+		System.out.println("Creating Index");
+
 		// Parsing Tweets
 		System.out.println("Runnign Parser");
 		TweetParser parser = new TweetParser();
@@ -25,26 +29,12 @@ public class TweeagleController {
 		ArrayList<Tweet> tweets = parser.getTweets();
 		System.out.println(tweets.size());
 
-		// TODO: Saving Tweets
-	}
-
-	public static void createIndex() {
-		System.out.println("Creating Index");
-
-		// Parsing Tweets ****
-		System.out.println("Runnign Parser");
-		TweetParser parser = new TweetParser();
-		parser.parseFiles();
-		ArrayList<Tweet> tweets = parser.getTweets();
-		System.out.println(tweets.size());
-		// **** 
-
 		// TODO: Loading tweets (ArrayList of tweets)
 		InvertedIndex index = new InvertedIndex();
 
 		index.addDocuments(tweets);
-		
-		System.out.println(index);
+
+//		System.out.println(index);
 
 	}
 
@@ -64,6 +54,9 @@ public class TweeagleController {
 			createIndex();
 		} else {
 			System.out.println("Action not available");
+
+			MemoryManager.readTweetFromFile("tweets/0.txt");
 		}
 	}
+
 }

@@ -1,9 +1,13 @@
 package core;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.TreeMap;
 
-public class Tweet {
+public class Tweet implements Serializable {
+
+	// default serialVersion id
+	private static long serialVersionUID;
 
 	// DocumentID
 	private int docID;
@@ -39,6 +43,7 @@ public class Tweet {
 			int favoriteCnt, String usertag, boolean verified, int friendsCnt, int followersCnt, int favoritesCnt,
 			int statusesCnt, String profileImgURL) {
 		dictionary = new TreeMap<>();
+
 		this.docID = docID;
 		this.created_at = created_at;
 		this.id = id;
@@ -174,6 +179,11 @@ public class Tweet {
 
 	public void setDocID(int docID) {
 		this.docID = docID;
+		this.serialVersionUID = docID;
+	}
+
+	public TreeMap<String, TermInfo> getDictionary() {
+		return dictionary;
 	}
 
 	@Override

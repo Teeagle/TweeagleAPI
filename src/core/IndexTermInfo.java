@@ -1,8 +1,9 @@
 package core;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class IndexTermInfo {
+public class IndexTermInfo implements Serializable{
 	private int df;
 	private float idf;
 

@@ -1,8 +1,9 @@
 package core;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class TermInfo {
+public class TermInfo implements Serializable{
 	private int tf;
 	private ArrayList<Integer> positions;
 
