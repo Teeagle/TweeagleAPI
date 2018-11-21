@@ -24,9 +24,12 @@ public class TweeagleController {
 
 		// Parsing Tweets
 		System.out.println("Runnign Parser");
+		
 		TweetParser parser = new TweetParser();
 		parser.parseFiles();
+		
 		ArrayList<Tweet> tweets = parser.getTweets();
+		
 		System.out.println(tweets.size());
 
 		// TODO: Loading tweets (ArrayList of tweets)
@@ -55,7 +58,8 @@ public class TweeagleController {
 		} else {
 			System.out.println("Action not available");
 
-			MemoryManager.readTweetFromFile("tweets/0.txt");
+//			MemoryManager.readTweetFromFile("tweets/0.txt");
+			MemoryManager.loadIndex();
 		}
 	}
 

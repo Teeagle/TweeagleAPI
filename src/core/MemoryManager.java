@@ -78,7 +78,7 @@ public class MemoryManager {
 
 			InvertedIndex storedIndex = (InvertedIndex) objectIn.readObject();
 
-			System.out.println("The Object has been read from the file.\n" + storedIndex.toString());
+			System.out.println("The Object has been read from the file.\n");
 			objectIn.close();
 			return storedIndex;
 		} catch (Exception ex) {
