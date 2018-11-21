@@ -99,6 +99,7 @@ public class TweetParser {
 
 					// Debug
 					// System.out.println(tweet);
+					tweet.createDictionary();
 
 					// Store tweet object
 					tweets.add(tweet);

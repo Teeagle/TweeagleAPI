@@ -37,8 +37,8 @@ public class MemoryManager {
 
 			Tweet tweet = (Tweet) objectIn.readObject();
 
-			// TODO: {BUG} INNER ITEM TERMINFO IS NOT SHOWN
-			System.out.println("The Object has been read from the file. " + tweet.getDocID() + " " + tweet.getText() + " obj=" + tweet.getDictionary().get("dog"));
+			// System.out.println("The Object has been read from the file. " + tweet.getDocID() + " " + tweet.getText() + " obj=" + tweet.getDictionary());
+			
 			objectIn.close();
 			return tweet;
 		} catch (Exception ex) {
