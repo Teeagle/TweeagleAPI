@@ -93,8 +93,27 @@ public class Ranking {
 		return score;
 	}
 	
-	public static float calculateTweetBasedScore(Tweet tweet) {
-		float score = 0;
+	/***
+	 * Calculating Tweet score based on selected features with empirical weight
+	 * @param tweet
+	 * @return score
+	 */
+	public static double calculateTweetBasedScore(Tweet tweet) {
+		// Features that affect the Tweet Score
+		int verified =0;
+		int retweets=tweet.getRetweetCnt();
+		int favorites= tweet.getFavoriteCnt();
+		int replies= tweet.getReplyCnt();
+		int quotes= tweet.getQuoteCnt();
+		int followers= tweet.getUserFollowersCnt();
+		
+		if(tweet.getIsVerified()) {
+			verified = 1;
+		}
+		double total = retweets+favorites+replies+quotes+followers;
+		double score = 0;
+		// Empirical weights to the features
+		score = 0.4*verified + 0.1*retweets/total + 0.1*favorites/total + 0.1*replies/total + 0.1*quotes/total + 0.2*followers/total; 
 		
 		return score;
 	}	
