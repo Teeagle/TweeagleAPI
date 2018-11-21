@@ -86,6 +86,8 @@ public class QueryProcessing {
 			while (tokens.hasMoreTokens()) {
 				String token = tokens.nextToken();
 				token = token.toLowerCase();
+				
+				ArrayList<Integer> positions = tweetDict.get(token).getPositions();
 			}
 			
 		}
