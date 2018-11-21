@@ -95,7 +95,7 @@ public class InvertedIndex implements Serializable {
 	
 
 	public void printIndex() {
-
+		this.toString();
 	}
 
 	@Override
