@@ -7,7 +7,7 @@ public class IndexTermInfo implements Serializable{
 	private int df;
 	private float idf;
 
-	private ArrayList<Integer> tweetIds;
+	public ArrayList<Integer> tweetIds;
 
 	public IndexTermInfo() {
 		tweetIds = new ArrayList<>();

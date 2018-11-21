@@ -10,7 +10,7 @@ import java.util.Scanner;
 
 public class TweeagleController {
 
-	static InvertedIndex index;
+	public static InvertedIndex index;
 
 	public static void runCrawler() {
 		System.out.println("Running Crawler");
@@ -53,9 +53,11 @@ public class TweeagleController {
 		System.out.println("Available actions: ");
 		System.out.println("-------------------");
 		System.out.println("1. Run Crawler");
-		System.out.println("2. Create Index\n");
-		System.out.println("3. Delete Index\n");
-		System.out.print("Type action number: ");
+		System.out.println("2. Create Index");
+		System.out.println("3. Delete Index");
+		System.out.println("4. Delete a Tweet");
+		System.out.println("5. Empty cached Tweets");
+		System.out.print("\nType action number: ");
 
 		Scanner scanner = new Scanner(System.in);
 		int action = scanner.nextInt();
@@ -72,7 +74,17 @@ public class TweeagleController {
 			break;
 		}
 		case 3: {
+			// Delete Index from memory
 			MemoryManager.deleteIndex();
+			break;
+		}
+		case 4: {
+			break;
+			// TODO: Delete a Tweet (document)
+		}
+		case 5: {
+			// TODO: Empty cached Tweets
+			
 			break;
 		}
 		default: {
@@ -80,7 +92,9 @@ public class TweeagleController {
 
 			// MemoryManager.readTweetFromFile("tweets/0.txt");
 			// MemoryManager.loadIndex();
-
+			// QueryProcessing.printIndex();
+			//index.deleteDocument(MemoryManager.readTweetFromFile("0.txt"));
+			index.printIndex();
 			break;
 		}
 		}

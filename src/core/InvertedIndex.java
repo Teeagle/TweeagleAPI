@@ -17,20 +17,18 @@ public class InvertedIndex implements Serializable {
 	// Dictionary Holder
 	private TreeMap<String, IndexTermInfo> dictionary;
 	private int totalDocuments;
-	
+
 	public InvertedIndex() {
 		dictionary = new TreeMap<String, IndexTermInfo>();
 		totalDocuments = 0;
 	}
-	
-	public TreeMap<String, IndexTermInfo> getDictionary(){
+
+	public TreeMap<String, IndexTermInfo> getDictionary() {
 		return dictionary;
 	}
 
-	private boolean addTerm(String token, Tweet tweet, int pos) {
-
+	private void addTerm(String token, Tweet tweet, int pos) {
 		// Index Dictionary
-
 		if (dictionary.containsKey(token)) {
 			// If the key exists, update it
 
@@ -49,15 +47,13 @@ public class InvertedIndex implements Serializable {
 
 		// Tweet Dictionary
 		tweet.addTerm(token, pos);
-
-		return true;
 	}
 
 	private boolean deleteTerm() {
 		return false;
 	}
 
-	private boolean addDocument(Tweet tweet) {
+	private void addDocument(Tweet tweet) {
 		StringTokenizer tokens = new StringTokenizer(tweet.getText(), " .,';?\\\"!$%^&*-–—+=_()<>|/\\\\|[]`~\n\t");
 
 		int pos = 0;
@@ -69,9 +65,6 @@ public class InvertedIndex implements Serializable {
 
 			addTerm(token, tweet, pos++);
 		}
-
-		return false;
-
 	}
 
 	public boolean addDocuments(ArrayList<Tweet> tweets) {
@@ -90,19 +83,20 @@ public class InvertedIndex implements Serializable {
 
 	}
 
-	public boolean deleteDocument() {
+	public boolean deleteDocument(Tweet tweet) {
+		// Deletes from index
 
-		if (!MemoryManager.storeIndex(this)) {
-			System.err.println("[!] Failed to store index to memory.");
+		for (String term : tweet.getDictionary().keySet()) {
+			this.dictionary.get(term).tweetIds.remove((Integer) tweet.getDocID());
+			totalDocuments--;
 		}
+		// TODO: Deletes from memory
 
 		return false;
 	}
 
-	
-
 	public void printIndex() {
-		this.toString();
+		System.out.println(this.toString());
 	}
 
 	@Override
@@ -110,7 +104,7 @@ public class InvertedIndex implements Serializable {
 
 		String lol = "";
 
-		for (Entry<String, IndexTermInfo> entry : dictionary.entrySet()) {
+		for (Entry<String, IndexTermInfo> entry : this.dictionary.entrySet()) {
 			lol = lol.concat(entry.getKey() + " " + entry.getValue() + " \n");
 		}
 
@@ -120,6 +114,5 @@ public class InvertedIndex implements Serializable {
 	public int getTotalDocuments() {
 		return totalDocuments;
 	}
-	
-	
+
 }
