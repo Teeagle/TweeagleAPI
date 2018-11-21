@@ -2,6 +2,7 @@ package core;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.StringTokenizer;
 import java.util.TreeMap;
 
 public class Tweet implements Serializable {
@@ -214,6 +215,20 @@ public class Tweet implements Serializable {
 			info.addPosition(pos);
 
 			dictionary.put(token, info);
+		}
+	}
+	
+	public void createDictionary(){
+		StringTokenizer tokens = new StringTokenizer(this.text, " .,';?\\\"!$%^&*-–—+=_()<>|/\\\\|[]`~\n\t");
+
+		int pos = 0;
+		while (tokens.hasMoreTokens()) {
+			String token = tokens.nextToken();
+
+			// Convert character to lower case
+			token = token.toLowerCase();
+
+			addTerm(token, pos++);
 		}
 	}
 

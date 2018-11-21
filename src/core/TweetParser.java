@@ -11,8 +11,6 @@ import java.util.Arrays;
 public class TweetParser {
 
 	private String CORPUS_PATH;
-	private String OFFLINE_DATA = "tweets/";
-
 	private ArrayList<Tweet> tweets;
 
 	/**
@@ -23,7 +21,7 @@ public class TweetParser {
 		this.CORPUS_PATH = "TweeagleCorpus/";
 
 		// Initialize saved tweets directory
-		initializeTweetsDirectory();
+		MemoryManager.initializeTweetsDirectory();
 	}
 
 	/**
@@ -33,7 +31,7 @@ public class TweetParser {
 		this.CORPUS_PATH = corpus;
 
 		// Initialize saved tweets directory
-		initializeTweetsDirectory();
+		MemoryManager.initializeTweetsDirectory();
 	}
 
 	/**
@@ -99,29 +97,19 @@ public class TweetParser {
 
 					// Debug
 					// System.out.println(tweet);
+					tweet.createDictionary();
 
 					// Store tweet object
 					tweets.add(tweet);
 
 					// Save tweet to memory
-					MemoryManager.writeTweetToFile(tweet, OFFLINE_DATA + tweet.getDocID() + ".txt");
+					MemoryManager.writeTweetToFile(tweet, tweet.getDocID() + ".txt");
 				}
 
 				bufferedReader.close();
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
-		}
-	}
-
-	public void initializeTweetsDirectory() {
-		// Check if the indexes directory does not exist and create it
-		File directory = new File(OFFLINE_DATA);
-
-		if (!directory.exists()) {
-			directory.mkdir();
-			// If you require it to make the entire directory path including parents,
-			// use directory.mkdirs(); here instead.
 		}
 	}
 

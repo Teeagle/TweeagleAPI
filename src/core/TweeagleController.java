@@ -10,6 +10,8 @@ import java.util.Scanner;
 
 public class TweeagleController {
 
+	static InvertedIndex index;
+
 	public static void runCrawler() {
 		System.out.println("Running Crawler");
 		// APP:
@@ -24,13 +26,16 @@ public class TweeagleController {
 
 		// Parsing Tweets
 		System.out.println("Runnign Parser");
+
 		TweetParser parser = new TweetParser();
 		parser.parseFiles();
+
 		ArrayList<Tweet> tweets = parser.getTweets();
+
 		System.out.println(tweets.size());
 
 		// TODO: Loading tweets (ArrayList of tweets)
-		InvertedIndex index = new InvertedIndex();
+		index = new InvertedIndex();
 
 		index.addDocuments(tweets);
 
@@ -40,22 +45,44 @@ public class TweeagleController {
 
 	public static void main(String args[]) {
 
+		// TODO: Load index if exists
+
+		index = MemoryManager.loadIndexState();
+
 		System.out.println("Welcome to the dark side of Tweeagle >:)");
 		System.out.println("Available actions: ");
 		System.out.println("-------------------");
 		System.out.println("1. Run Crawler");
 		System.out.println("2. Create Index\n");
+		System.out.println("3. Delete Index\n");
 		System.out.print("Type action number: ");
+
 		Scanner scanner = new Scanner(System.in);
 		int action = scanner.nextInt();
-		if (action == 1) {
+
+		switch (action) {
+		case 1: {
+			// Crawl for Tweets
 			runCrawler();
-		} else if (action == 2) {
+			break;
+		}
+		case 2: {
+			// Initialize index
 			createIndex();
-		} else {
+			break;
+		}
+		case 3: {
+			MemoryManager.deleteIndex();
+			break;
+		}
+		default: {
 			System.out.println("Action not available");
 
-			MemoryManager.readTweetFromFile("tweets/0.txt");
+			// MemoryManager.readTweetFromFile("tweets/0.txt");
+			// MemoryManager.loadIndex();
+
+			break;
+		}
 		}
 	}
 
