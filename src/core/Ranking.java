@@ -20,7 +20,7 @@ public class Ranking {
 	 * @return
 	 */
 	public static double calculateVSMScore(InvertedIndex index, Tweet tweet, String query) {
-		float score = 0;
+		double score = 0;
 		
 		TreeMap<String, IndexTermInfo> indexTerms = index.getDictionary();
 		Set<String> terms = new HashSet<String>(); // A set of unique terms in query-document pair
@@ -48,25 +48,39 @@ public class Ranking {
 			}
 		}
 		
+		double qvLength = 0; // Length for Normalization
+		double dvLength = 0; // Length for Normalization
+	
 		// Calculating Vectors
 		for(String term : terms) {
 			
-			// Query Vector
-			int qTF = 0;
+			// Query Vector Creation
+			double qTFWeight = 0;
 			double idf = 0;
 			double tf_idf = 0;
 			int df = indexTerms.get(term).getDf();
 			if (queryTerms.containsKey(term)) {
-				qTF = queryTerms.get(term);
+				qTFWeight = Math.log10(1 + queryTerms.get(term));
 			}
 			idf = Math.log10(index.getTotalDocuments()/df);
+			tf_idf = idf * qTFWeight;
+			queryVector.add(tf_idf); // Query Vector
+			qvLength+=tf_idf;
 			
-			// Document Vector
+			// Document Vector Creation
 			double tfWeight = 0;
 			if(tweetDictionary.containsKey(term)) {
-				tfWeight = (Double) Math.log10(1 + tweetDictionary.get(term).getTf());
+				tfWeight = Math.log10(1 + tweetDictionary.get(term).getTf());
 			}
-			tweetVector.add(tfWeight);
+			tweetVector.add(tfWeight); // Document Vector
+			dvLength+=tfWeight;
+		}
+		
+		// Normalize vectors and calculate score
+		for(int i=0;i<queryVector.size();i++) {
+			double q = queryVector.get(i) / qvLength;
+			double d = tweetVector.get(i) / dvLength;
+			score = q*d;
 		}
 		
 		return score;

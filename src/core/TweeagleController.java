@@ -61,28 +61,28 @@ public class TweeagleController {
 		int action = scanner.nextInt();
 
 		switch (action) {
-		case 1: {
-			// Crawl for Tweets
-			runCrawler();
-			break;
-		}
-		case 2: {
-			// Initialize index
-			createIndex();
-			break;
-		}
-		case 3: {
-			MemoryManager.deleteIndex();
-			break;
-		}
-		default: {
-			System.out.println("Action not available");
-
-			// MemoryManager.readTweetFromFile("tweets/0.txt");
-			// MemoryManager.loadIndex();
-
-			break;
-		}
+			case 1: {
+				// Crawl for Tweets
+				runCrawler();
+				break;
+			}
+			case 2: {
+				// Initialize index
+				createIndex();
+				break;
+			}
+			case 3: {
+				MemoryManager.deleteIndex();
+				break;
+			}
+			default: {
+				System.out.println("Action not available");
+	
+				// MemoryManager.readTweetFromFile("tweets/0.txt");
+				// MemoryManager.loadIndex();
+	
+				break;
+			}
 		}
 	}
 
