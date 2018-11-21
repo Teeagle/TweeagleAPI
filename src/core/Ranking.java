@@ -44,12 +44,13 @@ public class Ranking {
 			if (queryTerms.containsKey(token)) {
 				queryTerms.put(token,queryTerms.get(token)+1);
 			}else {
-				queryTerms.put(token,0);
+				queryTerms.put(token,1);
 			}
 		}
 		
 		double qvLength = 0; // Length for Normalization
 		double dvLength = 0; // Length for Normalization
+		
 	
 		// Calculating Vectors
 		for(String term : terms) {
@@ -58,12 +59,14 @@ public class Ranking {
 			double qTFWeight = 0;
 			double idf = 0;
 			double tf_idf = 0;
-			int df = indexTerms.get(term).getDf();
-			if (queryTerms.containsKey(term)) {
-				qTFWeight = Math.log10(1 + queryTerms.get(term));
+			if(indexTerms.containsKey(term)) {
+				double df = indexTerms.get(term).getDf();
+				if (queryTerms.containsKey(term)) {
+					qTFWeight = Math.log10(1 + queryTerms.get(term));
+				}
+				idf = Math.log10(index.getTotalDocuments()/df);
+				tf_idf = idf * qTFWeight;
 			}
-			idf = Math.log10(index.getTotalDocuments()/df);
-			tf_idf = idf * qTFWeight;
 			queryVector.add(tf_idf); // Query Vector
 			qvLength+=tf_idf;
 			
@@ -76,11 +79,15 @@ public class Ranking {
 			dvLength+=tfWeight;
 		}
 		
+		
+		
 		// Normalize vectors and calculate score
-		for(int i=0;i<queryVector.size();i++) {
-			double q = queryVector.get(i) / qvLength;
-			double d = tweetVector.get(i) / dvLength;
-			score = q*d;
+		if(qvLength > 0 && dvLength >0) {
+			for(int i=0;i<queryVector.size();i++) {
+				double q = (double)queryVector.get(i) / qvLength;
+				double d = (double)tweetVector.get(i) / dvLength;
+				score+= q*d;
+			}
 		}
 		
 		return score;

@@ -28,7 +28,7 @@ public class InvertedIndex implements Serializable {
 	}
 
 	private boolean addTerm(String token, Tweet tweet, int pos) {
-
+		
 		// Index Dictionary
 
 		if (dictionary.containsKey(token)) {

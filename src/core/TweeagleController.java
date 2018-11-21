@@ -80,7 +80,11 @@ public class TweeagleController {
 	
 				// MemoryManager.readTweetFromFile("tweets/0.txt");
 				// MemoryManager.loadIndex();
-	
+				Tweet tweet = MemoryManager.readTweetFromFile("tweets/"+index.getDictionary().get("dog").getTweetIds().get(0)+".txt");
+				
+				System.out.println(tweet);
+				System.out.println("Score: "+Ranking.calculateVSMScore(index, tweet, "dog"));
+				System.out.println("Score: "+Ranking.calculateVSMScore(index, tweet, "played fetch with the dog for two hours and then left"));
 				break;
 			}
 		}
