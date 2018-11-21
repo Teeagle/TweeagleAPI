@@ -34,7 +34,7 @@ public class Crawler {
         TwitterStreamFactory tsf = new TwitterStreamFactory(cb.build());
         this.twitterStream = tsf.getInstance();
         this.tweetBucketCapacity = 100; //default capacity
-        this.tweetBucketsCnt=733;
+        this.tweetBucketsCnt=860;
         this.tweetBucket = new ArrayList<>();
     }
 

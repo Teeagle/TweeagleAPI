@@ -16,9 +16,15 @@ public class InvertedIndex implements Serializable {
 
 	// Dictionary Holder
 	private TreeMap<String, IndexTermInfo> dictionary;
-
+	private int totalDocuments;
+	
 	public InvertedIndex() {
 		dictionary = new TreeMap<String, IndexTermInfo>();
+		totalDocuments = 0;
+	}
+	
+	public TreeMap<String, IndexTermInfo> getDictionary(){
+		return dictionary;
 	}
 
 	private boolean addTerm(String token, Tweet tweet, int pos) {
@@ -109,4 +115,10 @@ public class InvertedIndex implements Serializable {
 
 		return lol;
 	}
+
+	public int getTotalDocuments() {
+		return totalDocuments;
+	}
+	
+	
 }
