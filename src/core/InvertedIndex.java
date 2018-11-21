@@ -27,12 +27,7 @@ public class InvertedIndex implements Serializable {
 		return dictionary;
 	}
 
-<<<<<<< HEAD
 	private void addTerm(String token, Tweet tweet, int pos) {
-=======
-	private boolean addTerm(String token, Tweet tweet, int pos) {
-		
->>>>>>> e1bd11e4fca4e43844e3294425f6d570fd91b7d0
 		// Index Dictionary
 		if (dictionary.containsKey(token)) {
 			// If the key exists, update it
@@ -77,6 +72,9 @@ public class InvertedIndex implements Serializable {
 		for (int i = 0; i < tweets.size(); i++) {
 			addDocument(tweets.get(i));
 			totalDocuments++;
+			/*if(tweets.get(i).getIsVerified()) {
+				System.out.println(tweets.get(i).getDocID()+" "+tweets.get(i).getText());
+			}*/
 		}
 
 		if (!MemoryManager.storeIndex(this)) {

@@ -35,7 +35,7 @@ public class MemoryManager {
 	public static Tweet readTweetFromFile(String filepath) {
 
 		try {
-			FileInputStream fileIn = new FileInputStream(filepath);
+			FileInputStream fileIn = new FileInputStream(OFFLINE_DATA + filepath);
 			ObjectInputStream objectIn = new ObjectInputStream(fileIn);
 
 			Tweet tweet = (Tweet) objectIn.readObject();

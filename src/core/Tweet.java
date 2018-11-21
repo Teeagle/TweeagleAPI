@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.StringTokenizer;
 import java.util.TreeMap;
 
-public class Tweet implements Serializable {
+public class Tweet implements Serializable, Comparable<Tweet>{
 
 	// default serialVersion id
 	private static long serialVersionUID;
@@ -32,6 +32,9 @@ public class Tweet implements Serializable {
 	private int userFavoritesCnt;
 	private int userStatusesCnt;
 	private String userProfileImgURL;
+	
+	// Ranking
+	private double score;
 
 	// Dictionary Holder
 	private TreeMap<String, TermInfo> dictionary;
@@ -231,5 +234,20 @@ public class Tweet implements Serializable {
 			addTerm(token, pos++);
 		}
 	}
+
+	public double getScore() {
+		return score;
+	}
+
+	public void setScore(double score) {
+		this.score = score;
+	}
+	
+	@Override
+	public int compareTo(Tweet tweet) {
+	  return Double.compare(tweet.score,score);
+	}
+	
+	
 
 }

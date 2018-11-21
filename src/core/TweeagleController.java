@@ -57,6 +57,8 @@ public class TweeagleController {
 		System.out.println("3. Delete Index");
 		System.out.println("4. Delete a Tweet");
 		System.out.println("5. Empty cached Tweets");
+		System.out.println("6. Text Search");
+		System.out.println("7. Print Dictionary");
 		System.out.print("\nType action number: ");
 
 		Scanner scanner = new Scanner(System.in);
@@ -77,6 +79,17 @@ public class TweeagleController {
 				MemoryManager.deleteIndex();
 				break;
 			}
+			case 6: {
+				System.out.print("Text to search:");
+				scanner.nextLine();
+				String query = scanner.nextLine();
+				QueryProcessing.textSearch(query);
+				break;
+			}
+			case 7:{
+				index.printIndex();
+				break;
+			}
 			default: {
 				System.out.println("Action not available");
 	
@@ -85,10 +98,12 @@ public class TweeagleController {
 				Tweet tweet = MemoryManager.readTweetFromFile("tweets/"+index.getDictionary().get("dog").getTweetIds().get(0)+".txt");
 				Tweet tweet2 = MemoryManager.readTweetFromFile("tweets/"+index.getDictionary().get("dog").getTweetIds().get(1)+".txt");
 				
+				/*
 				System.out.println(tweet);
 				System.out.println(tweet2);
 				System.out.println("VSM: "+Ranking.calculateVSMScore(index, tweet, "beautiful")+" TS: "+Ranking.calculateTweetBasedScore(tweet));
 				System.out.println("VSM: "+Ranking.calculateVSMScore(index, tweet2, "beautiful")+" TS: "+Ranking.calculateTweetBasedScore(tweet2));
+				*/
 				break;
 			}
 		}

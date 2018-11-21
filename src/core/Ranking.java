@@ -1,6 +1,7 @@
 package core;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
@@ -117,5 +118,38 @@ public class Ranking {
 		
 		return score;
 	}	
-
+	
+	
+	public static ArrayList<Tweet> rankResults(InvertedIndex index,ArrayList<Tweet> tweets, String query,int option){
+		
+		switch (option) {
+			case 0:{
+				for(Tweet tweet : tweets) {
+					double score = calculateVSMScore(index,tweet,query) + calculateTweetBasedScore(tweet);
+					tweet.setScore(score);
+				}
+				// Both
+				break;
+			}
+			case 1: {
+				// VSM Ranking
+				for(Tweet tweet : tweets) {
+					tweet.setScore(calculateVSMScore(index,tweet,query));
+				}
+				
+				break;
+			}
+			case 2: {
+				// Tweet Ranking
+				break;
+			}
+			default: {
+				break;
+			}
+		}
+		
+		Collections.sort(tweets);
+		
+		return tweets;
+	}
 }
