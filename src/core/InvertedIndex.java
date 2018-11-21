@@ -78,6 +78,7 @@ public class InvertedIndex implements Serializable {
 
 		for (int i = 0; i < tweets.size(); i++) {
 			addDocument(tweets.get(i));
+			totalDocuments++;
 		}
 
 		if (!MemoryManager.storeIndex(this)) {
