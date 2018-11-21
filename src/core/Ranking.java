@@ -20,7 +20,7 @@ public class Ranking {
 	 * @return
 	 */
 	public static double calculateVSMScore(InvertedIndex index, Tweet tweet, String query) {
-		float score = 0;
+		double score = 0;
 		
 		TreeMap<String, IndexTermInfo> indexTerms = index.getDictionary();
 		Set<String> terms = new HashSet<String>(); // A set of unique terms in query-document pair
@@ -44,36 +44,76 @@ public class Ranking {
 			if (queryTerms.containsKey(token)) {
 				queryTerms.put(token,queryTerms.get(token)+1);
 			}else {
-				queryTerms.put(token,0);
+				queryTerms.put(token,1);
 			}
 		}
 		
+		double qvLength = 0; // Length for Normalization
+		double dvLength = 0; // Length for Normalization
+		
+	
 		// Calculating Vectors
 		for(String term : terms) {
 			
-			// Query Vector
-			int qTF = 0;
+			// Query Vector Creation
+			double qTFWeight = 0;
 			double idf = 0;
 			double tf_idf = 0;
-			int df = indexTerms.get(term).getDf();
-			if (queryTerms.containsKey(term)) {
-				qTF = queryTerms.get(term);
+			if(indexTerms.containsKey(term)) {
+				double df = indexTerms.get(term).getDf();
+				if (queryTerms.containsKey(term)) {
+					qTFWeight = Math.log10(1 + queryTerms.get(term));
+				}
+				idf = Math.log10(index.getTotalDocuments()/df);
+				tf_idf = idf * qTFWeight;
 			}
-			idf = Math.log10(index.getTotalDocuments()/df);
+			queryVector.add(tf_idf); // Query Vector
+			qvLength+=tf_idf;
 			
-			// Document Vector
+			// Document Vector Creation
 			double tfWeight = 0;
 			if(tweetDictionary.containsKey(term)) {
-				tfWeight = (Double) Math.log10(1 + tweetDictionary.get(term).getTf());
+				tfWeight = Math.log10(1 + tweetDictionary.get(term).getTf());
 			}
-			tweetVector.add(tfWeight);
+			tweetVector.add(tfWeight); // Document Vector
+			dvLength+=tfWeight;
+		}
+		
+		
+		
+		// Normalize vectors and calculate score
+		if(qvLength > 0 && dvLength >0) {
+			for(int i=0;i<queryVector.size();i++) {
+				double q = (double)queryVector.get(i) / qvLength;
+				double d = (double)tweetVector.get(i) / dvLength;
+				score+= q*d;
+			}
 		}
 		
 		return score;
 	}
 	
-	public static float calculateTweetBasedScore(Tweet tweet) {
-		float score = 0;
+	/***
+	 * Calculating Tweet score based on selected features with empirical weight
+	 * @param tweet
+	 * @return score
+	 */
+	public static double calculateTweetBasedScore(Tweet tweet) {
+		// Features that affect the Tweet Score
+		int verified =0;
+		int retweets=tweet.getRetweetCnt();
+		int favorites= tweet.getFavoriteCnt();
+		int replies= tweet.getReplyCnt();
+		int quotes= tweet.getQuoteCnt();
+		int followers= tweet.getUserFollowersCnt();
+		
+		if(tweet.getIsVerified()) {
+			verified = 1;
+		}
+		double total = retweets+favorites+replies+quotes+followers;
+		double score = 0;
+		// Empirical weights to the features
+		score = 0.4*verified + 0.1*retweets/total + 0.1*favorites/total + 0.1*replies/total + 0.1*quotes/total + 0.2*followers/total; 
 		
 		return score;
 	}	

@@ -13,6 +13,8 @@ tmp/
 *~.nib
 local.properties
 .settings/
+tweets/
+indexes/
 .loadpath
 .recommenders
 

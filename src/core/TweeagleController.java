@@ -63,40 +63,34 @@ public class TweeagleController {
 		int action = scanner.nextInt();
 
 		switch (action) {
-		case 1: {
-			// Crawl for Tweets
-			runCrawler();
-			break;
-		}
-		case 2: {
-			// Initialize index
-			createIndex();
-			break;
-		}
-		case 3: {
-			// Delete Index from memory
-			MemoryManager.deleteIndex();
-			break;
-		}
-		case 4: {
-			break;
-			// TODO: Delete a Tweet (document)
-		}
-		case 5: {
-			// TODO: Empty cached Tweets
-			
-			break;
-		}
-		default: {
-			System.out.println("Action not available");
-
-			// MemoryManager.readTweetFromFile("tweets/0.txt");
-			// MemoryManager.loadIndex();
-			// QueryProcessing.printIndex();
-			//index.deleteDocument(MemoryManager.readTweetFromFile("0.txt"));
-			index.printIndex();
-			break;
-		}
+			case 1: {
+				// Crawl for Tweets
+				runCrawler();
+				break;
+			}
+			case 2: {
+				// Initialize index
+				createIndex();
+				break;
+			}
+			case 3: {
+				MemoryManager.deleteIndex();
+				break;
+			}
+			default: {
+				System.out.println("Action not available");
+	
+				// MemoryManager.readTweetFromFile("tweets/0.txt");
+				// MemoryManager.loadIndex();
+				Tweet tweet = MemoryManager.readTweetFromFile("tweets/"+index.getDictionary().get("dog").getTweetIds().get(0)+".txt");
+				Tweet tweet2 = MemoryManager.readTweetFromFile("tweets/"+index.getDictionary().get("dog").getTweetIds().get(1)+".txt");
+				
+				System.out.println(tweet);
+				System.out.println(tweet2);
+				System.out.println("VSM: "+Ranking.calculateVSMScore(index, tweet, "beautiful")+" TS: "+Ranking.calculateTweetBasedScore(tweet));
+				System.out.println("VSM: "+Ranking.calculateVSMScore(index, tweet2, "beautiful")+" TS: "+Ranking.calculateTweetBasedScore(tweet2));
+				break;
+			}
 		}
 	}
 
