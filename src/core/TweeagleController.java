@@ -59,6 +59,7 @@ public class TweeagleController {
 		System.out.println("5. Empty cached Tweets");
 		System.out.println("6. Text Search");
 		System.out.println("7. Print Dictionary");
+		System.out.println("8. Phrase Search");
 		System.out.print("\nType action number: ");
 
 		Scanner scanner = new Scanner(System.in);
@@ -88,6 +89,13 @@ public class TweeagleController {
 			}
 			case 7:{
 				index.printIndex();
+				break;
+			}
+			case 8:{
+				System.out.print("Phrase to search:");
+				scanner.nextLine();
+				String query = scanner.nextLine();
+				QueryProcessing.phraseSearch(query);
 				break;
 			}
 			default: {
