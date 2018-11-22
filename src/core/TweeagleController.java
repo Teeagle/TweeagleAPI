@@ -11,6 +11,11 @@ import java.util.Scanner;
 public class TweeagleController {
 
 	public static InvertedIndex index;
+	
+	public static void initialize() {
+		// Load Index from memory
+		index = MemoryManager.loadIndexState();
+	}
 
 	public static void runCrawler() {
 		System.out.println("Running Crawler");
@@ -84,7 +89,7 @@ public class TweeagleController {
 				System.out.print("Text to search:");
 				scanner.nextLine();
 				String query = scanner.nextLine();
-				QueryProcessing.textSearch(query);
+				//QueryProcessing.textSearch(query, 1); //TODO change it
 				break;
 			}
 			case 7:{
@@ -95,7 +100,7 @@ public class TweeagleController {
 				System.out.print("Phrase to search:");
 				scanner.nextLine();
 				String query = scanner.nextLine();
-				QueryProcessing.phraseSearch(query);
+				//QueryProcessing.phraseSearch(query);
 				break;
 			}
 			default: {

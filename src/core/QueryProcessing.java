@@ -7,17 +7,21 @@ import java.util.StringTokenizer;
 import java.util.TreeMap;
 
 public class QueryProcessing {
-
-	// Find index from controller
-	static InvertedIndex index = TweeagleController.index;
+	
+	private InvertedIndex index;
+	
+	public QueryProcessing() {
+		this.index = MemoryManager.loadIndexState();
+	}
 
 	/***
 	 * 
 	 * @param query
+	 * @param ranking 
+	 * @return 
 	 */
-	public static void textSearch(String query) {
+	public ArrayList<Tweet> textSearch(String query, Integer ranking) {
 		StringTokenizer tokens = new StringTokenizer(query, " .,';?\\\"!$%^&*-–—+=_()<>|/\\\\|[]`~\n\t");
-
 		Set<Integer> docIDs = new HashSet<Integer>();
 
 		while (tokens.hasMoreTokens()) {
@@ -41,19 +45,23 @@ public class QueryProcessing {
 			tweets.add(MemoryManager.readTweetFromFile(id + ".txt"));
 		}
 
-		tweets = Ranking.rankResults(index, tweets, query, 1);
+		tweets = Ranking.rankResults(index, tweets, query, ranking);
 
 		for (Tweet tweet : tweets) {
 			System.out.println(tweet.getDocID() + " score: " + tweet.getScore());
 		}
+		
+		return tweets;
 	}
 
 	/***
 	 * Searches index for an entire phrase
 	 * using positional posting lists
 	 * @param query
+	 * @param ranking 
+	 * @return 
 	 */
-	public static void phraseSearch(String query) {
+	public ArrayList<Tweet> phraseSearch(String query, Integer ranking) {
 		// Tokenize to get terms
 		StringTokenizer tokens = new StringTokenizer(query, " .,';?\\\"!$%^&*-–—+=_()<>|/\\\\|[]`~\n\t");
 		Set<Integer> docIDs = new HashSet<>();
@@ -79,7 +87,7 @@ public class QueryProcessing {
 				}
 			} else {
 				System.out.println("Phrase not Found");
-				return;
+				return null;
 			}
 
 		}
@@ -126,11 +134,13 @@ public class QueryProcessing {
 		}
 
 		// Rank the results
-		tweets = Ranking.rankResults(index, tweets, query, 1);
+		tweets = Ranking.rankResults(index, tweets, query, ranking);
 		for (Tweet tweet : tweets) {
 			System.out.println(tweet.getDocID() + " score: " + tweet.getScore());
 			System.out.println(tweet.getText());
 			System.out.println("-------------------------------------------------------------------\n");
 		}
+		
+		return tweets;
 	}
 }

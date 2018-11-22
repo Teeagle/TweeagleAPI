@@ -6,11 +6,13 @@ import java.io.FileOutputStream;
 import java.io.FilenameFilter;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 
-public class MemoryManager {
-	private static String INDEX_DIR = "indexes/";
-	private static String OFFLINE_DATA = "tweets/";
+public class MemoryManager{
+	private static String INDEX_DIR = "/Applications/Eclipse.app/Contents/MacOS/indexes/";
+	private static String OFFLINE_DATA = "/Applications/Eclipse.app/Contents/MacOS/tweets/";
 
 	/**
 	 * Saves a serializable tweet to memory.
@@ -86,6 +88,7 @@ public class MemoryManager {
 			objectIn.close();
 			return storedIndex;
 		} catch (Exception ex) {
+			System.out.println("AAAAAAAAAAA");
 			ex.printStackTrace();
 			return null;
 		}
@@ -108,11 +111,23 @@ public class MemoryManager {
 	public static InvertedIndex loadIndexState() {
 		// Load index if exist along with the tweets
 		File indexfile = new File(INDEX_DIR + "index");
-
+		//File indexfile = getServletContext().getRealPath("");
+				
+		//Path p = Paths.get("~/eclipse-workspace/TweeagleAPI/");
+		//String sa = p.toAbsolutePath().toString();
+		//System.out.println(sa);
+		
 		if (!indexfile.exists()) {
 			// The index does not exist, so do not load anything
+			Path cur = Paths.get("");
+			String s = cur.toAbsolutePath().toString();
+			System.out.println(s);
+			System.out.println("Re ma ");
 			return null;
 		}
+		
+		System.out.println("Index:"+loadIndex());
+		
 
 		return loadIndex();
 	}
