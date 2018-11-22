@@ -48,17 +48,24 @@ public class QueryProcessing {
 		}
 	}
 
+	/***
+	 * Searches index for an entire phrase
+	 * using positional posting lists
+	 * @param query
+	 */
 	public static void phraseSearch(String query) {
 		// Tokenize to get terms
 		StringTokenizer tokens = new StringTokenizer(query, " .,';?\\\"!$%^&*-–—+=_()<>|/\\\\|[]`~\n\t");
 		Set<Integer> docIDs = new HashSet<>();
+		ArrayList<String> words = new ArrayList<>();
 
 		boolean firstIteration = true;
-
+		
+		// AND of Terms
 		while (tokens.hasMoreTokens()) {
 			String token = tokens.nextToken();
 			token = token.toLowerCase();
-
+			words.add(token);
 			// Checks if token exists in dict
 			TreeMap<String, IndexTermInfo> indexDict = index.getDictionary();
 			if (indexDict.containsKey(token)) {
@@ -83,19 +90,47 @@ public class QueryProcessing {
 		for (Integer id : docIDs) {
 			Tweet tweet = MemoryManager.readTweetFromFile(id + ".txt");
 			TreeMap<String, TermInfo> tweetDict = tweet.getDictionary();
-			while (tokens.hasMoreTokens()) {
-				String token = tokens.nextToken();
-				token = token.toLowerCase();
-				
-				ArrayList<Integer> positions = tweetDict.get(token).getPositions();
-			}
 			
+			
+			boolean found = false;
+			int cur = -1;
+			int total = 1;
+			
+			ArrayList<Integer> firstWordList = tweetDict.get(words.get(0)).getPositions();			
+			while(!found && cur < firstWordList.size()-1) {
+				cur++;
+				int firstPos = firstWordList.get(cur);
+				boolean cont = false;
+				for(int i=1;i< words.size();i++) {
+					cont = false;
+					ArrayList<Integer> nextList = tweetDict.get(words.get(i)).getPositions();
+					for(int j=0;j<nextList.size();j++) {
+						int num = nextList.get(j);
+						if(num == firstPos + i) {
+							cont = true;
+							total++;
+							break;
+						}
+					}
+					if(!cont) {
+						total = 1;
+						break; // Not found
+					}
+				}
+				if(total == words.size()) {
+					found = true;
+					//System.out.println(tweet.getText());
+					tweets.add(tweet);
+				}
+			}		
 		}
 
+		// Rank the results
 		tweets = Ranking.rankResults(index, tweets, query, 1);
-
 		for (Tweet tweet : tweets) {
 			System.out.println(tweet.getDocID() + " score: " + tweet.getScore());
+			System.out.println(tweet.getText());
+			System.out.println("-------------------------------------------------------------------\n");
 		}
 	}
 }
