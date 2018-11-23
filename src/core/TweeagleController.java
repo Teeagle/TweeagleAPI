@@ -166,6 +166,7 @@ public static void printLogo() {
 			}
 			case 9: {
 				exitflag = true;
+				break;
 			}
 			default: {
 				System.out.println("Action not available");

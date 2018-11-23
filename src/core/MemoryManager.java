@@ -1,8 +1,11 @@
 package core;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -17,11 +20,54 @@ public class MemoryManager {
 	// "/Applications/Eclipse.app/Contents/MacOS/indexes/";
 	// private static String OFFLINE_DATA =
 	// "/Applications/Eclipse.app/Contents/MacOS/tweets/";
-	//private static String INDEX_DIR = "indexes/";
-	//private static String OFFLINE_DATA = "tweets/";
+	// private static String INDEX_DIR = "indexes/";
+	// private static String OFFLINE_DATA = "tweets/";
 	// WINDOWS
-	private static String INDEX_DIR = "C:/Users/gdemos01/Desktop/History/eclipse/indexes/";
-	private static String OFFLINE_DATA = "C:/Users/gdemos01/Desktop/History/eclipse//tweets/";
+//	private static String INDEX_DIR = "C:/Users/gdemos01/Desktop/History/eclipse/indexes/";
+	// private static String OFFLINE_DATA =
+	// "C:/Users/gdemos01/Desktop/History/eclipse//tweets/";
+	private static String INDEX_DIR;
+	private static String OFFLINE_DATA;
+	static {
+		// The name of the file to open.
+		String fileName = "conf.txt";
+
+		// This will reference one line at a time
+		String line = null;
+
+		try {
+			// FileReader reads text files in the default encoding.
+			FileReader fileReader = new FileReader(fileName);
+
+			// Always wrap FileReader in BufferedReader.
+			BufferedReader bufferedReader = new BufferedReader(fileReader);
+
+			while ((line = bufferedReader.readLine()) != null) {
+				String[] parts = line.split(":");
+				if (parts[0].equals("SERVICE_PATH")) {
+					INDEX_DIR = parts[1] + "indexes/";
+					OFFLINE_DATA = parts[1] + "tweets/";
+				}
+				// System.out.println(line);
+			}
+			File temp = new File(INDEX_DIR);
+			File temp2 = new File(OFFLINE_DATA);
+			if (!temp.exists()) {
+				System.err.println("The file on " + INDEX_DIR + " does not exist.\nPlease configure file");
+				System.exit(0);
+			}
+			if (!temp2.exists()) {
+				System.err.println("The file on " + OFFLINE_DATA + " does not exist.\nPlease configure file");
+				System.exit(0);
+			} // Always close files.
+			bufferedReader.close();
+		} catch (FileNotFoundException ex) {
+			System.err.println("Configuration file not found");
+			System.exit(0);
+		} catch (IOException ex) {
+		}
+
+	}
 
 	/**
 	 * Saves a serializable tweet to memory.
@@ -98,7 +144,7 @@ public class MemoryManager {
 
 			InvertedIndex storedIndex = (InvertedIndex) objectIn.readObject();
 
-			System.out.println("The Object has been read from the file.\n");
+		//	System.out.println("The Object has been read from the file.\n");
 			objectIn.close();
 			return storedIndex;
 		} catch (Exception ex) {
@@ -185,33 +231,33 @@ public class MemoryManager {
 	}
 
 	public static boolean deleteTweet(Tweet tweet) {
-				// Check if the tweet exist delete it
-				File file = new File(OFFLINE_DATA+tweet.getDocID()+".txt");
-				if (file.delete()) {
-					System.out.println("Tweet deleted from the index");
-					return true;
-				} else {
-					System.err.println("[!] Tweet doesn't exists in the index");
-					return false;
-				}
-		
-		
+		// Check if the tweet exist delete it
+		File file = new File(OFFLINE_DATA + tweet.getDocID() + ".txt");
+		if (file.delete()) {
+			System.out.println("Tweet deleted from the index");
+			return true;
+		} else {
+			System.err.println("[!] Tweet doesn't exists in the index");
+			return false;
+		}
+
 	}
+
 	public static void eraseCashe() {
 		File offline_data = new File(OFFLINE_DATA);
 		File index = new File(INDEX_DIR);
 		File[] allContents = index.listFiles();
-		    if (allContents != null) {
-		        for (File file : allContents) {
-		            file.delete();
-		        }
-		    }
+		if (allContents != null) {
+			for (File file : allContents) {
+				file.delete();
+			}
+		}
 		allContents = offline_data.listFiles();
-		    if (allContents != null) {
-		        for (File file : allContents) {
-		            file.delete();
-		        }
-		    }
+		if (allContents != null) {
+			for (File file : allContents) {
+				file.delete();
+			}
+		}
 		System.out.println("Cache erased successfully!");
 	}
 
