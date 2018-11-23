@@ -132,10 +132,6 @@ public class MemoryManager {
 
 		if (!indexfile.exists()) {
 			// The index does not exist, so do not load anything
-			Path cur = Paths.get("");
-			String s = cur.toAbsolutePath().toString();
-			System.out.println(s);
-			System.out.println("Re ma ");
 			return null;
 		}
 
@@ -199,6 +195,23 @@ public class MemoryManager {
 					return false;
 				}
 		
+		
+	}
+	public static void eraseCashe() {
+		File offline_data = new File(OFFLINE_DATA);
+		File index = new File(INDEX_DIR);
+		File[] allContents = index.listFiles();
+		    if (allContents != null) {
+		        for (File file : allContents) {
+		            file.delete();
+		        }
+		    }
+		allContents = offline_data.listFiles();
+		    if (allContents != null) {
+		        for (File file : allContents) {
+		            file.delete();
+		        }
+		    }
 		
 	}
 

@@ -33,14 +33,15 @@ public class QueryProcessing {
 			token = token.toLowerCase();
 
 			// Checks if token exists in dict
+			if(index==null) {
+				return new ArrayList<Tweet>();
+			}
 			TreeMap<String, IndexTermInfo> indexDict = index.getDictionary();
 			if (indexDict.containsKey(token)) {
 				ArrayList<Integer> tempDocIDs = indexDict.get(token).getTweetIds();
 				for (Integer id : tempDocIDs) {
 					docIDs.add(id);
 				}
-			}else {
-				System.out.println("Query returns 0 results"); 
 			}
 
 		}

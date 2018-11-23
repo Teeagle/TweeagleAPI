@@ -3,7 +3,11 @@
  */
 package core;
 
+import java.io.BufferedReader;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -25,7 +29,36 @@ public class TweeagleController {
 		crawler.setTweetBucketCapacity(1000); // Tweets per bucket-file
 		crawler.crawl();
 	}
+public static void printLogo() {
 
+    // The name of the file to open.
+    String fileName = "eaglelogo";
+
+    // This will reference one line at a time
+    String line = null;
+
+    try {
+        // FileReader reads text files in the default encoding.
+        FileReader fileReader = 
+            new FileReader(fileName);
+
+        // Always wrap FileReader in BufferedReader.
+        BufferedReader bufferedReader = 
+            new BufferedReader(fileReader);
+
+        while((line = bufferedReader.readLine()) != null) {
+            System.out.println(line);
+        }   
+
+        // Always close files.
+        bufferedReader.close();         
+    }
+    catch(FileNotFoundException ex) {             
+    }
+    catch(IOException ex) {
+    }
+
+}
 	public static void createIndex() {
 		System.out.println("Creating Index");
 
@@ -54,18 +87,21 @@ public class TweeagleController {
 
 		boolean exitflag = false;
 		while (!exitflag) {
-			System.out.println("Welcome to the dark side of Tweeagle >:)");
-			System.out.println("Available actions: ");
-			System.out.println("-------------------");
-			System.out.println("1. Run Crawler");
-			System.out.println("2. Create Index");
-			System.out.println("3. Delete Index");
-			System.out.println("4. Delete a Tweet");
-			System.out.println("5. Empty cached Tweets");
-			System.out.println("6. Text Search");
-			System.out.println("7. Print Dictionary");
-			System.out.println("8. Phrase Search");
-			System.out.println("9. Exit");
+			printLogo();
+			System.out.println("------------------------------------------------0");
+			System.out.println("Welcome to the dark side of Tweeagle >:)\t*");
+			System.out.println("------------------------------------------------*");
+			System.out.println("Available actions: \t\t\t\t*");
+			System.out.println("1. Run Crawler\t\t\t\t\t*");
+			System.out.println("2. Create Index\t\t\t\t\t*");
+			System.out.println("3. Delete Index\t\t\t\t\t*");
+			System.out.println("4. Delete a Tweet\t\t\t\t*");
+			System.out.println("5. Empty cached Tweets\t\t\t\t*");
+			System.out.println("6. Text Search\t\t\t\t\t*");
+			System.out.println("7. Phrase Search\t\t\t\t*");
+			System.out.println("8. Print Dictionary\t\t\t\t*");
+			System.out.println("9. Exit\t\t\t\t\t\t*");
+			System.out.println("------------------------------------------------0");
 			System.out.print("\nType action number: ");
 
 			Scanner scanner = new Scanner(System.in);
@@ -87,7 +123,7 @@ public class TweeagleController {
 				break;
 			}
 			case 4: {
-				System.out.print("Tweet to delete");
+				System.out.print("Tweet to delete:");
 				scanner.nextLine();
 				String tweetname = scanner.nextLine();
 				index.deleteDocument(tweetname);
@@ -95,7 +131,8 @@ public class TweeagleController {
 				break;
 			}
 			case 5: {
-
+				MemoryManager.eraseCashe();
+				index = new InvertedIndex();
 				break;
 			}
 			case 6: {
@@ -103,19 +140,20 @@ public class TweeagleController {
 				scanner.nextLine();
 				String query = scanner.nextLine();
 				QueryProcessing qp = new QueryProcessing(index);
-				qp.textSearch(query, 1);
+				qp.textSearch(query, 0);
 				break;
 			}
+
 			case 7: {
-				index.printIndex();
-				break;
-			}
-			case 8: {
 				System.out.print("Phrase to search:");
 				scanner.nextLine();
 				String query = scanner.nextLine();
 				QueryProcessing qp = new QueryProcessing(index);
 				qp.phraseSearch(query, 0);
+				break;
+			}
+			case 8: {
+				index.printIndex();
 				break;
 			}
 			case 9: {
@@ -124,20 +162,6 @@ public class TweeagleController {
 			default: {
 				System.out.println("Action not available");
 
-				// MemoryManager.readTweetFromFile("tweets/0.txt");
-				// MemoryManager.loadIndex();
-				Tweet tweet = MemoryManager
-						.readTweetFromFile("tweets/" + index.getDictionary().get("dog").getTweetIds().get(0) + ".txt");
-				Tweet tweet2 = MemoryManager
-						.readTweetFromFile("tweets/" + index.getDictionary().get("dog").getTweetIds().get(1) + ".txt");
-
-				/*
-				 * System.out.println(tweet); System.out.println(tweet2);
-				 * System.out.println("VSM: "+Ranking.calculateVSMScore(index, tweet,
-				 * "beautiful")+" TS: "+Ranking.calculateTweetBasedScore(tweet));
-				 * System.out.println("VSM: "+Ranking.calculateVSMScore(index, tweet2,
-				 * "beautiful")+" TS: "+Ranking.calculateTweetBasedScore(tweet2));
-				 */
 				break;
 			}
 			}
