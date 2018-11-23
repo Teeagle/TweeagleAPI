@@ -12,6 +12,12 @@ import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import core.indexer.InvertedIndex;
+import core.indexer.QueryProcessing;
+import core.obj.Tweet;
+import core.parser.TweetParser;
+import core.utils.MemoryManager;
+
 public class TweeagleController {
 
 	public static InvertedIndex index;
@@ -88,7 +94,7 @@ public static void printLogo() {
 		boolean exitflag = false;
 		while (!exitflag) {
 			printLogo();
-			System.out.println("------------------------------------------------0");
+			System.out.println("------------------------------------------------o");
 			System.out.println("Welcome to the dark side of Tweeagle >:)\t*");
 			System.out.println("------------------------------------------------*");
 			System.out.println("Available actions: \t\t\t\t*");
@@ -101,7 +107,7 @@ public static void printLogo() {
 			System.out.println("7. Phrase Search\t\t\t\t*");
 			System.out.println("8. Print Dictionary\t\t\t\t*");
 			System.out.println("9. Exit\t\t\t\t\t\t*");
-			System.out.println("------------------------------------------------0");
+			System.out.println("------------------------------------------------o");
 			System.out.print("\nType action number: ");
 
 			Scanner scanner = new Scanner(System.in);

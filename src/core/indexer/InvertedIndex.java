@@ -1,4 +1,4 @@
-package core;
+package core.indexer;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -9,6 +9,11 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Map.Entry;
+
+import core.indexer.obj.IndexTermInfo;
+import core.obj.Tweet;
+import core.utils.MemoryManager;
+
 import java.util.StringTokenizer;
 import java.util.TreeMap;
 

@@ -1,8 +1,11 @@
-package core;
+package core.parser;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+
+import core.obj.Tweet;
+import core.utils.MemoryManager;
 
 import java.io.*;
 import java.util.ArrayList;

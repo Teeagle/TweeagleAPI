@@ -1,4 +1,4 @@
-package core;
+package core.utils;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -10,6 +10,9 @@ import java.io.ObjectOutputStream;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+
+import core.indexer.InvertedIndex;
+import core.obj.Tweet;
 
 public class MemoryManager {
 	// MAC
@@ -212,7 +215,7 @@ public class MemoryManager {
 		            file.delete();
 		        }
 		    }
-		
+		System.out.println("Cache erased successfully!");
 	}
 
 }

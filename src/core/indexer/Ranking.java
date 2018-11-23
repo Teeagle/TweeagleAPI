@@ -1,4 +1,4 @@
-package core;
+package core.indexer;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -10,6 +10,10 @@ import java.util.TreeMap;
 import java.util.Map.Entry;
 
 import javax.management.Query;
+
+import core.indexer.obj.IndexTermInfo;
+import core.obj.TermInfo;
+import core.obj.Tweet;
 
 public class Ranking {
 	
