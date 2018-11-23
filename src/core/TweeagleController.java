@@ -129,7 +129,7 @@ public static void printLogo() {
 				break;
 			}
 			case 4: {
-				System.out.print("Tweet to delete:");
+				System.out.print("Tweet to delete: ");
 				scanner.nextLine();
 				String tweetname = scanner.nextLine();
 				index.deleteDocument(tweetname);
@@ -142,20 +142,28 @@ public static void printLogo() {
 				break;
 			}
 			case 6: {
-				System.out.print("Text to search:");
+				System.out.print("Text to search: ");
 				scanner.nextLine();
 				String query = scanner.nextLine();
+				
+				System.out.print("Select Ranking [1-VSM, 2-Twiter Weighting, 0-Both]: ");
+				int ranking = scanner.nextInt();
+				
 				QueryProcessing qp = new QueryProcessing(index);
-				qp.textSearch(query, 0);
+				qp.textSearch(query, ranking);
 				break;
 			}
 
 			case 7: {
-				System.out.print("Phrase to search:");
+				System.out.print("Phrase to search: ");
 				scanner.nextLine();
 				String query = scanner.nextLine();
+				
+				System.out.print("Select Ranking [1-VSM, 2-Twiter Weighting, 0-Both]: ");
+				int ranking = scanner.nextInt();
+				
 				QueryProcessing qp = new QueryProcessing(index);
-				qp.phraseSearch(query, 0);
+				qp.phraseSearch(query, ranking);
 				break;
 			}
 			case 8: {
