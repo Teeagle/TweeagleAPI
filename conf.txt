@@ -1,1 +1,5 @@
+<<<<<<< HEAD
 SERVICE_PATH	C:/Users/gdemos01/Desktop/History/eclipse/
+=======
+SERVICE_PATH	/Applications/Eclipse.app/Contents/MacOS/
+>>>>>>> ae1d0f35b5c44276b217d9adf21b16eddd90c684

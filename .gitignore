@@ -15,6 +15,7 @@ local.properties
 .settings/
 tweets/
 indexes/
+TweeagleCorpus/
 .loadpath
 .recommenders
 

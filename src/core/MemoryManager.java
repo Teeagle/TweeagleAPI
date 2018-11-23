@@ -14,62 +14,27 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 
-import javax.servlet.ServletContext;
-
 public class MemoryManager {
 	// MAC
 	// private static String INDEX_DIR =
 	// "/Applications/Eclipse.app/Contents/MacOS/indexes/";
 	// private static String OFFLINE_DATA =
 	// "/Applications/Eclipse.app/Contents/MacOS/tweets/";
-	// private static String INDEX_DIR = "indexes/";
-	// private static String OFFLINE_DATA = "tweets/";
+	private static String INDEX_DIR = "indexes/";
+	private static String OFFLINE_DATA = "tweets/";
 	// WINDOWS
-	private static String INDEX_DIR = "C:/Users/gdemos01/Desktop/History/eclipse/indexes/";
-	private static String OFFLINE_DATA = "C:/Users/gdemos01/Desktop/History/eclipse	/tweets/";
-	
-	/*
-	private static String INDEX_DIR;
-	private static String OFFLINE_DATA;
-	static {
-		String filePath = "/conf.txt" ;  
-		String line = null;
+//	private static String INDEX_DIR = "C:/Users/gdemos01/Desktop/History/eclipse/indexes/";
+	// private static String OFFLINE_DATA =
+	// "C:/Users/gdemos01/Desktop/History/eclipse//tweets/";
+	// private static String INDEX_DIR;
+	// private static String OFFLINE_DATA;
 
-		try {
-			// FileReader reads text files in the default encoding.
-			FileReader fileReader = new FileReader(filePath);
-
-			// Always wrap FileReader in BufferedReader.
-			BufferedReader bufferedReader = new BufferedReader(fileReader);
-
-			while ((line = bufferedReader.readLine()) != null) {
-				String[] parts = line.split("\t");
-				if (parts[0].equals("SERVICE_PATH")) {
-					INDEX_DIR = parts[1] + "indexes/";
-					OFFLINE_DATA = parts[1] + "tweets/";
-				}
-				// System.out.println(line);
-			}
-			
-			File temp = new File(INDEX_DIR);
-			File temp2 = new File(OFFLINE_DATA);
-			if (!temp.exists()) {
-				System.err.println("The file on " + INDEX_DIR + " does not exist.\nPlease configure file");
-				System.exit(0);
-			}
-			if (!temp2.exists()) {
-				System.err.println("The file on " + OFFLINE_DATA + " does not exist.\nPlease configure file");
-				System.exit(0);
-			} // Always close files.
-			bufferedReader.close();
-		} catch (FileNotFoundException ex) {
-			System.err.println("Configuration file not found");
-			System.exit(0);
-		} catch (IOException ex) {
-		}
-
+	public static void setPaths(String base) {
+		INDEX_DIR = base + INDEX_DIR;
+		OFFLINE_DATA = base + OFFLINE_DATA;
+		return;
 	}
-	*/
+
 	/**
 	 * Saves a serializable tweet to memory.
 	 * 
@@ -145,7 +110,7 @@ public class MemoryManager {
 
 			InvertedIndex storedIndex = (InvertedIndex) objectIn.readObject();
 
-		//	System.out.println("The Object has been read from the file.\n");
+			// System.out.println("The Object has been read from the file.\n");
 			objectIn.close();
 			return storedIndex;
 		} catch (Exception ex) {

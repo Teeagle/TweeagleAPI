@@ -16,9 +16,40 @@ public class TweeagleController {
 
 	public static InvertedIndex index;
 
-	public static void initialize() {
-		// Load Index from memory
+	public static void initialsdize() {
+		// Load Index from msdemory
 		index = MemoryManager.loadIndexState();
+	}
+
+	public static String loadPaths() {
+
+		// The name of the file to open.
+		String fileName = "conf.txt";
+		// This will reference one line at a time
+		String line = null;
+
+		try {
+			// FileReader reads text files in the default encoding.
+			FileReader fileReader = new FileReader(fileName);
+
+			// Always wrap FileReader in BufferedReader.
+			BufferedReader bufferedReader = new BufferedReader(fileReader);
+			while ((line = bufferedReader.readLine()) != null) {
+				String[] parts = line.split("\t");
+				if (parts[0].equals("SERVICE_PATH")) {
+					return parts[1];
+				}
+				// System.out.println(line);
+			}
+
+			bufferedReader.close();
+		} catch (FileNotFoundException ex) {
+			System.err.println("Configuration file not found");
+			System.exit(0);
+		} catch (IOException ex) {
+		}
+
+		return "This is the End";
 	}
 
 	public static void runCrawler() {
@@ -29,36 +60,34 @@ public class TweeagleController {
 		crawler.setTweetBucketCapacity(1000); // Tweets per bucket-file
 		crawler.crawl();
 	}
-public static void printLogo() {
 
-    // The name of the file to open.
-    String fileName = "eaglelogo";
+	public static void printLogo() {
 
-    // This will reference one line at a time
-    String line = null;
+		// The name of the file to open.
+		String fileName = "eaglelogo";
 
-    try {
-        // FileReader reads text files in the default encoding.
-        FileReader fileReader = 
-            new FileReader(fileName);
+		// This will reference one line at a time
+		String line = null;
 
-        // Always wrap FileReader in BufferedReader.
-        BufferedReader bufferedReader = 
-            new BufferedReader(fileReader);
+		try {
+			// FileReader reads text files in the default encoding.
+			FileReader fileReader = new FileReader(fileName);
 
-        while((line = bufferedReader.readLine()) != null) {
-            System.out.println(line);
-        }   
+			// Always wrap FileReader in BufferedReader.
+			BufferedReader bufferedReader = new BufferedReader(fileReader);
 
-        // Always close files.
-        bufferedReader.close();         
-    }
-    catch(FileNotFoundException ex) {             
-    }
-    catch(IOException ex) {
-    }
+			while ((line = bufferedReader.readLine()) != null) {
+				System.out.println(line);
+			}
 
-}
+			// Always close files.
+			bufferedReader.close();
+		} catch (FileNotFoundException ex) {
+		} catch (IOException ex) {
+		}
+
+	}
+
 	public static void createIndex() {
 		System.out.println("Creating Index");
 
@@ -73,7 +102,7 @@ public static void printLogo() {
 		System.out.println(tweets.size() + " tweets were parsed");
 
 		index = new InvertedIndex();
-		
+
 		index.addDocuments(tweets);
 		System.out.println(index.getTotalDocuments() + " tweets inside index");
 
@@ -81,8 +110,8 @@ public static void printLogo() {
 
 	public static void main(String args[]) {
 
-		// TODO: Load index if exists
-
+		String base_path = loadPaths();
+		MemoryManager.setPaths(base_path);
 		index = MemoryManager.loadIndexState();
 
 		boolean exitflag = false;
@@ -139,10 +168,10 @@ public static void printLogo() {
 				System.out.print("Text to search: ");
 				scanner.nextLine();
 				String query = scanner.nextLine();
-				
+
 				System.out.print("Select Ranking [1-VSM, 2-Twiter Weighting, 0-Both]: ");
 				int ranking = scanner.nextInt();
-				
+
 				QueryProcessing qp = new QueryProcessing(index);
 				qp.textSearch(query, ranking);
 				break;
@@ -152,10 +181,10 @@ public static void printLogo() {
 				System.out.print("Phrase to search: ");
 				scanner.nextLine();
 				String query = scanner.nextLine();
-				
+
 				System.out.print("Select Ranking [1-VSM, 2-Twiter Weighting, 0-Both]: ");
 				int ranking = scanner.nextInt();
-				
+
 				QueryProcessing qp = new QueryProcessing(index);
 				qp.phraseSearch(query, ranking);
 				break;
