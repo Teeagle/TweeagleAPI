@@ -20,11 +20,11 @@ public class MemoryManager {
 	// "/Applications/Eclipse.app/Contents/MacOS/indexes/";
 	// private static String OFFLINE_DATA =
 	// "/Applications/Eclipse.app/Contents/MacOS/tweets/";
-	private static String INDEX_DIR = "indexes/";
-	private static String OFFLINE_DATA = "tweets/";
+	//private static String INDEX_DIR = "indexes/";
+	//private static String OFFLINE_DATA = "tweets/";
 	// WINDOWS
-//	private static String INDEX_DIR = "C:/Users/gdemos01/Desktop/History/eclipse/indexes/";
-//	private static String OFFLINE_DATA = "C:/Users/gdemos01/Desktop/History/eclipse//tweets/";
+	private static String INDEX_DIR = "C:/Users/gdemos01/Desktop/History/eclipse/indexes/";
+	private static String OFFLINE_DATA = "C:/Users/gdemos01/Desktop/History/eclipse//tweets/";
 
 	/**
 	 * Saves a serializable tweet to memory.
