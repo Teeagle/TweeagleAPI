@@ -8,14 +8,16 @@ import com.google.gson.Gson;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.servlet.ServletContext;
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.core.Application;
+import javax.ws.rs.core.Context;
 
 @Path("/search")
 public class SearchAPI {
-
+	
 	// The following annotations are not required. Everything is optional
 	@POST
 	@Path("/text")

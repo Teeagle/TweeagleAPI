@@ -14,6 +14,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 
+import javax.servlet.ServletContext;
+
 public class MemoryManager {
 	// MAC
 	// private static String INDEX_DIR =
@@ -23,33 +25,32 @@ public class MemoryManager {
 	// private static String INDEX_DIR = "indexes/";
 	// private static String OFFLINE_DATA = "tweets/";
 	// WINDOWS
-//	private static String INDEX_DIR = "C:/Users/gdemos01/Desktop/History/eclipse/indexes/";
-	// private static String OFFLINE_DATA =
-	// "C:/Users/gdemos01/Desktop/History/eclipse//tweets/";
+	private static String INDEX_DIR = "C:/Users/gdemos01/Desktop/History/eclipse/indexes/";
+	private static String OFFLINE_DATA = "C:/Users/gdemos01/Desktop/History/eclipse	/tweets/";
+	
+	/*
 	private static String INDEX_DIR;
 	private static String OFFLINE_DATA;
 	static {
-		// The name of the file to open.
-		String fileName = "conf.txt";
-
-		// This will reference one line at a time
+		String filePath = "/conf.txt" ;  
 		String line = null;
 
 		try {
 			// FileReader reads text files in the default encoding.
-			FileReader fileReader = new FileReader(fileName);
+			FileReader fileReader = new FileReader(filePath);
 
 			// Always wrap FileReader in BufferedReader.
 			BufferedReader bufferedReader = new BufferedReader(fileReader);
 
 			while ((line = bufferedReader.readLine()) != null) {
-				String[] parts = line.split(":");
+				String[] parts = line.split("\t");
 				if (parts[0].equals("SERVICE_PATH")) {
 					INDEX_DIR = parts[1] + "indexes/";
 					OFFLINE_DATA = parts[1] + "tweets/";
 				}
 				// System.out.println(line);
 			}
+			
 			File temp = new File(INDEX_DIR);
 			File temp2 = new File(OFFLINE_DATA);
 			if (!temp.exists()) {
@@ -68,7 +69,7 @@ public class MemoryManager {
 		}
 
 	}
-
+	*/
 	/**
 	 * Saves a serializable tweet to memory.
 	 * 

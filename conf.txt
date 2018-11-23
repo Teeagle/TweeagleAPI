@@ -1,1 +1,1 @@
-SERVICE_PATH:/Applications/Eclipse.app/Contents/MacOS/
+SERVICE_PATH	C:/Users/gdemos01/Desktop/History/eclipse/
