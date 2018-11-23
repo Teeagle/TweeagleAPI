@@ -11,9 +11,15 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 
 public class MemoryManager{
-	private static String INDEX_DIR = "/Applications/Eclipse.app/Contents/MacOS/indexes/";
-	private static String OFFLINE_DATA = "/Applications/Eclipse.app/Contents/MacOS/tweets/";
-
+	// MAC
+	//private static String INDEX_DIR = "/Applications/Eclipse.app/Contents/MacOS/indexes/";
+	//private static String OFFLINE_DATA = "/Applications/Eclipse.app/Contents/MacOS/tweets/";
+	
+	// WINDOWS
+	private static String INDEX_DIR = "C:/Users/gdemos01/Desktop/History/eclipse/indexes/";
+	private static String OFFLINE_DATA = "C:/Users/gdemos01/Desktop/History/eclipse//tweets/";
+	
+	
 	/**
 	 * Saves a serializable tweet to memory.
 	 * 
@@ -88,7 +94,6 @@ public class MemoryManager{
 			objectIn.close();
 			return storedIndex;
 		} catch (Exception ex) {
-			System.out.println("AAAAAAAAAAA");
 			ex.printStackTrace();
 			return null;
 		}
@@ -126,7 +131,7 @@ public class MemoryManager{
 			return null;
 		}
 		
-		System.out.println("Index:"+loadIndex());
+		//System.out.println("Index:"+loadIndex());
 		
 
 		return loadIndex();
