@@ -86,15 +86,20 @@ public class InvertedIndex implements Serializable {
 
 	}
 
-	public boolean deleteDocument(Tweet tweet) {
+	public boolean deleteDocument(String tweetname) {
 		// Deletes from index
-
+		//Take tweet from memory
+		Tweet tweet=MemoryManager.readTweetFromFile(tweetname);
+		//System.out.println(tweet);
+		
+		//Delete
 		for (String term : tweet.getDictionary().keySet()) {
 			this.dictionary.get(term).tweetIds.remove((Integer) tweet.getDocID());
-			totalDocuments--;
-		}
-		// TODO: Deletes from memory
 
+		}
+		totalDocuments--;
+		MemoryManager.storeIndex(this);
+		MemoryManager.deleteTweet(tweet);
 		return false;
 	}
 

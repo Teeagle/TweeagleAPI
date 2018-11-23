@@ -4,22 +4,25 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FilenameFilter;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 
-public class MemoryManager{
+public class MemoryManager {
 	// MAC
-	//private static String INDEX_DIR = "/Applications/Eclipse.app/Contents/MacOS/indexes/";
-	//private static String OFFLINE_DATA = "/Applications/Eclipse.app/Contents/MacOS/tweets/";
-	
+	// private static String INDEX_DIR =
+	// "/Applications/Eclipse.app/Contents/MacOS/indexes/";
+	// private static String OFFLINE_DATA =
+	// "/Applications/Eclipse.app/Contents/MacOS/tweets/";
+	private static String INDEX_DIR = "indexes/";
+	private static String OFFLINE_DATA = "tweets/";
 	// WINDOWS
-	private static String INDEX_DIR = "C:/Users/gdemos01/Desktop/History/eclipse/indexes/";
-	private static String OFFLINE_DATA = "C:/Users/gdemos01/Desktop/History/eclipse//tweets/";
-	
-	
+//	private static String INDEX_DIR = "C:/Users/gdemos01/Desktop/History/eclipse/indexes/";
+//	private static String OFFLINE_DATA = "C:/Users/gdemos01/Desktop/History/eclipse//tweets/";
+
 	/**
 	 * Saves a serializable tweet to memory.
 	 * 
@@ -62,14 +65,19 @@ public class MemoryManager{
 	public static boolean storeIndex(InvertedIndex index) {
 		// Check if the indexes directory does not exist and create it
 		File directory = new File(INDEX_DIR);
-
+		String filepath = INDEX_DIR + "index";
 		if (!directory.exists()) {
 			directory.mkdir();
+
 			// If you require it to make the entire directory path including parents,
 			// use directory.mkdirs(); here instead.
 		}
 
 		try {
+			File file = new File(filepath);
+			if (!file.exists()) {
+				file.createNewFile();
+			}
 			FileOutputStream fileOut = new FileOutputStream(INDEX_DIR + "index");
 			ObjectOutputStream objectOut = new ObjectOutputStream(fileOut);
 			objectOut.writeObject(index);
@@ -116,12 +124,12 @@ public class MemoryManager{
 	public static InvertedIndex loadIndexState() {
 		// Load index if exist along with the tweets
 		File indexfile = new File(INDEX_DIR + "index");
-		//File indexfile = getServletContext().getRealPath("");
-				
-		//Path p = Paths.get("~/eclipse-workspace/TweeagleAPI/");
-		//String sa = p.toAbsolutePath().toString();
-		//System.out.println(sa);
-		
+		// File indexfile = getServletContext().getRealPath("");
+
+		// Path p = Paths.get("~/eclipse-workspace/TweeagleAPI/");
+		// String sa = p.toAbsolutePath().toString();
+		// System.out.println(sa);
+
 		if (!indexfile.exists()) {
 			// The index does not exist, so do not load anything
 			Path cur = Paths.get("");
@@ -130,9 +138,8 @@ public class MemoryManager{
 			System.out.println("Re ma ");
 			return null;
 		}
-		
-		//System.out.println("Index:"+loadIndex());
-		
+
+		// System.out.println("Index:"+loadIndex());
 
 		return loadIndex();
 	}
@@ -179,6 +186,20 @@ public class MemoryManager{
 			// If you require it to make the entire directory path including parents,
 			// use directory.mkdirs(); here instead.
 		}
+	}
+
+	public static boolean deleteTweet(Tweet tweet) {
+				// Check if the tweet exist delete it
+				File file = new File(OFFLINE_DATA+tweet.getDocID()+".txt");
+				if (file.delete()) {
+					System.out.println("Tweet deleted from the index");
+					return true;
+				} else {
+					System.err.println("[!] Tweet doesn't exists in the index");
+					return false;
+				}
+		
+		
 	}
 
 }

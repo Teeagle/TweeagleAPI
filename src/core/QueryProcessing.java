@@ -13,6 +13,10 @@ public class QueryProcessing {
 	public QueryProcessing() {
 		this.index = MemoryManager.loadIndexState();
 	}
+	public QueryProcessing(InvertedIndex index) {
+		this.index = index;
+	}
+	
 
 	/***
 	 * 
@@ -35,6 +39,8 @@ public class QueryProcessing {
 				for (Integer id : tempDocIDs) {
 					docIDs.add(id);
 				}
+			}else {
+				System.out.println("Query returns 0 results"); 
 			}
 
 		}
