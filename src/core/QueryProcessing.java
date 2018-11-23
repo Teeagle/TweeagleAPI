@@ -1,15 +1,10 @@
-package core.indexer;
+package core;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.StringTokenizer;
 import java.util.TreeMap;
-
-import core.indexer.obj.IndexTermInfo;
-import core.obj.TermInfo;
-import core.obj.Tweet;
-import core.utils.MemoryManager;
 
 public class QueryProcessing {
 	

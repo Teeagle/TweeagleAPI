@@ -12,12 +12,6 @@ import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import core.indexer.InvertedIndex;
-import core.indexer.QueryProcessing;
-import core.obj.Tweet;
-import core.parser.TweetParser;
-import core.utils.MemoryManager;
-
 public class TweeagleController {
 
 	public static InvertedIndex index;

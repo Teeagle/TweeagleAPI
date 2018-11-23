@@ -1,4 +1,4 @@
-package core.obj;
+package core;
 
 import java.io.Serializable;
 import java.util.ArrayList;
