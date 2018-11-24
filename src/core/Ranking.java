@@ -140,11 +140,11 @@ public class Ranking {
 	public static double calculateTweetBasedScore(Tweet tweet) {
 		// Features that affect the Tweet Score
 		int verified = 0;
-		int retweets = tweet.getRetweetCnt();
-		int favorites = tweet.getFavoriteCnt();
-		int replies = tweet.getReplyCnt();
-		int quotes = tweet.getQuoteCnt();
-		int followers = tweet.getUserFollowersCnt();
+		double retweets = Math.log10(tweet.getRetweetCnt());
+		double favorites = Math.log10(tweet.getFavoriteCnt());
+		double replies = Math.log10(tweet.getReplyCnt());
+		double quotes = Math.log10(tweet.getQuoteCnt());
+		double followers = Math.log10(tweet.getUserFollowersCnt());
 
 		if (tweet.getIsVerified()) {
 			verified = 1;
