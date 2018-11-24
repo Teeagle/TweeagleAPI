@@ -115,7 +115,7 @@ public class Ranking {
 		// Empirical weights to the features
 		if (total > 0) {
 			score = 0.4 * verified + 0.1 * retweets / total + 0.1 * favorites / total + 0.1 * replies / total
-					+ 0.1 * quotes / total + 0.2 * followers / total;
+					+ 0.1* quotes / total + 0.2 * followers / total;
 		}else {
 			score = 0.4 * verified;
 		}

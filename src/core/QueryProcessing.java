@@ -58,7 +58,17 @@ public class QueryProcessing {
 			System.out.println(tweet.getDocID() + " score: " + tweet.getScore());
 		}
 		
-		return tweets;
+		
+		// Only returning top 50 tweets
+		if (tweets.size()<50) {
+			return tweets;
+		}
+		ArrayList<Tweet> topTweets = new ArrayList<>();		
+		for(int i=0;i<50;i++) {
+			topTweets.add(tweets.get(i));
+		}
+		
+		return topTweets;
 	}
 
 	/***
@@ -148,6 +158,16 @@ public class QueryProcessing {
 			System.out.println("-------------------------------------------------------------------\n");
 		}
 		
-		return tweets;
+		
+		// Only returning top 50 tweets
+		if (tweets.size()<50) {
+			return tweets;
+		}
+		ArrayList<Tweet> topTweets = new ArrayList<>();		
+		for(int i=0;i<50;i++) {
+			topTweets.add(tweets.get(i));
+		}
+		
+		return topTweets;
 	}
 }
