@@ -55,20 +55,12 @@ public class QueryProcessing {
 		tweets = Ranking.rankResults(index, tweets, query, ranking);
 
 		for (Tweet tweet : tweets) {
-			System.out.println(tweet.getDocID() + " score: " + tweet.getScore());
+			System.out.println("---------------------------------------------------");
+			System.out.println(tweet.getText() + " score: " + tweet.getScore());
+			System.out.println("---------------------------------------------------\n");
 		}
-		
-		
-		// Only returning top 50 tweets
-		if (tweets.size()<50) {
-			return tweets;
-		}
-		ArrayList<Tweet> topTweets = new ArrayList<>();		
-		for(int i=0;i<50;i++) {
-			topTweets.add(tweets.get(i));
-		}
-		
-		return topTweets;
+				
+		return tweets;
 	}
 
 	/***
@@ -153,21 +145,11 @@ public class QueryProcessing {
 		// Rank the results
 		tweets = Ranking.rankResults(index, tweets, query, ranking);
 		for (Tweet tweet : tweets) {
-			System.out.println(tweet.getDocID() + " score: " + tweet.getScore());
-			System.out.println(tweet.getText());
+			System.out.println("-------------------------------------------------------------------");
+			System.out.println(tweet.getText() + " score: " + tweet.getScore());
 			System.out.println("-------------------------------------------------------------------\n");
 		}
 		
-		
-		// Only returning top 50 tweets
-		if (tweets.size()<50) {
-			return tweets;
-		}
-		ArrayList<Tweet> topTweets = new ArrayList<>();		
-		for(int i=0;i<50;i++) {
-			topTweets.add(tweets.get(i));
-		}
-		
-		return topTweets;
+		return tweets;
 	}
 }

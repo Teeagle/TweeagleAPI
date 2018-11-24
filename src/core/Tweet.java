@@ -34,6 +34,8 @@ public class Tweet implements Serializable, Comparable<Tweet>{
 	private String userProfileImgURL;
 	
 	// Ranking
+	private double scoreVSM;
+
 	private double score;
 
 	// Dictionary Holder
@@ -242,6 +244,15 @@ public class Tweet implements Serializable, Comparable<Tweet>{
 	public void setScore(double score) {
 		this.score = score;
 	}
+	
+	public double getScoreVSM() {
+		return scoreVSM;
+	}
+
+	public void setScoreVSM(double scoreVSM) {
+		this.scoreVSM = scoreVSM;
+	}
+
 	
 	@Override
 	public int compareTo(Tweet tweet) {

@@ -12,30 +12,38 @@ import java.util.Map.Entry;
 import javax.management.Query;
 
 public class Ranking {
+	
 
-	/***
-	 * Calculate the score of the query-document pair based on the Vector Space
-	 * Model
-	 * 
-	 * @param tweet
-	 * @param query
-	 * @return
-	 */
-	public static double calculateVSMScore(InvertedIndex index, Tweet tweet, String query) {
-		double score = 0;
-
-		TreeMap<String, IndexTermInfo> indexTerms = index.getDictionary();
-		Set<String> terms = new HashSet<String>(); // A set of unique terms in query-document pair
-		HashMap<String, Integer> queryTerms = new HashMap<>(); // Query terms and their frequency
-		TreeMap<String, TermInfo> tweetDictionary = tweet.getDictionary();
-		ArrayList<Double> queryVector = new ArrayList<>();
-		ArrayList<Double> tweetVector = new ArrayList<>();
-
-		// Adding Tweet Dictionary Terms to terms set
-		for (Entry<String, TermInfo> entry : tweetDictionary.entrySet()) {
-			terms.add(entry.getKey());
+	private static double searchThreshold = 0.24;
+	private static int numResults = 20;
+	
+	// Query Info
+	static class QueryInfo{
+		private ArrayList<Double> queryVector;
+		private double qvLength;
+		private HashMap<String, Integer> queryTerms;
+		public QueryInfo(ArrayList<Double> queryVector,double qvLength,HashMap<String, Integer> queryTerms) {
+			this.queryVector = queryVector;
+			this.qvLength = qvLength;
+			this.queryTerms = queryTerms;
+		}	
+		
+		public Set<String> appendTerms(Set<String> terms) {			
+			for (Entry<String, Integer> entry : queryTerms.entrySet()) {
+				terms.add(entry.getKey());
+			}			
+			return terms;
 		}
-
+	}
+	
+	
+	public static QueryInfo calculateQueryVector(InvertedIndex index, String query) {
+		TreeMap<String, IndexTermInfo> indexTerms = index.getDictionary();
+		ArrayList<Double> queryVector = new ArrayList<>();
+		HashMap<String, Integer> queryTerms = new HashMap<>(); // Query terms and their frequency
+		double qvLength = 0; // Length for Normalization
+		Set<String> terms = new HashSet<String>();
+		
 		// Adding Query Terms to terms set
 		StringTokenizer tokens = new StringTokenizer(query, " \t");
 
@@ -47,15 +55,10 @@ public class Ranking {
 				queryTerms.put(token, queryTerms.get(token) + 1);
 			} else {
 				queryTerms.put(token, 1);
-			}
+			}			
 		}
-
-		double qvLength = 0; // Length for Normalization
-		double dvLength = 0; // Length for Normalization
-
-		// Calculating Vectors
+		
 		for (String term : terms) {
-
 			// Query Vector Creation
 			double qTFWeight = 0;
 			double idf = 0;
@@ -70,7 +73,42 @@ public class Ranking {
 			}
 			queryVector.add(tf_idf); // Query Vector
 			qvLength += tf_idf;
+		}	
+		
+		return new QueryInfo(queryVector,qvLength,queryTerms);
+	}
 
+	/***
+	 * Calculate the score of the query-document pair based on the Vector Space
+	 * Model
+	 * 
+	 * @param tweet
+	 * @param query
+	 * @return
+	 */
+	public static double calculateVSMScore(InvertedIndex index, Tweet tweet, QueryInfo queryInfo) {
+		double score = 0;
+
+		TreeMap<String, IndexTermInfo> indexTerms = index.getDictionary();
+		Set<String> terms = new HashSet<String>(); // A set of unique terms in query-document pair
+		TreeMap<String, TermInfo> tweetDictionary = tweet.getDictionary();
+		
+		ArrayList<Double> queryVector = queryInfo.queryVector;
+	//	System.out.println(queryVector);
+		
+		ArrayList<Double> tweetVector = new ArrayList<>();
+
+		// Adding Tweet Dictionary Terms to terms set
+		for (Entry<String, TermInfo> entry : tweetDictionary.entrySet()) {
+			terms.add(entry.getKey());
+		}
+		terms = queryInfo.appendTerms(terms);
+
+		double qvLength = queryInfo.qvLength; // Length for Normalization
+		double dvLength = 0; // Length for Normalization
+
+		// Calculating Vectors
+		for (String term : terms) {
 			// Document Vector Creation
 			double tfWeight = 0;
 			if (tweetDictionary.containsKey(term)) {
@@ -124,12 +162,33 @@ public class Ranking {
 	}
 
 	public static ArrayList<Tweet> rankResults(InvertedIndex index, ArrayList<Tweet> tweets, String query, int option) {
-
+		
+		QueryInfo queryInfo = calculateQueryVector(index, query);
+		
+		ArrayList<Tweet> mostRelevant = new ArrayList<>();
+		
 		switch (option) {
 		case 0: {
 			for (Tweet tweet : tweets) {
-				double score = calculateVSMScore(index, tweet, query) + calculateTweetBasedScore(tweet);
+				double scoreVsm= calculateVSMScore(index, tweet, queryInfo); 
+				double scoreTweet= calculateTweetBasedScore(tweet); 
+				double score =scoreVsm+scoreTweet;
 				tweet.setScore(score);
+				tweet.setScoreVSM(scoreVsm);
+				
+				// Keeping only most relevant tweets
+				if (mostRelevant.size() < numResults) {
+					mostRelevant.add(tweet);
+					Collections.sort(mostRelevant);
+				}else {
+					if (scoreVsm < searchThreshold) {
+						if (scoreVsm > mostRelevant.get(mostRelevant.size()-1).getScoreVSM()) {
+							mostRelevant.remove(mostRelevant.size()-1);
+							mostRelevant.add(tweet);
+							Collections.sort(mostRelevant);
+						}
+					}
+				}
 			}
 			// Both
 			break;
@@ -137,9 +196,28 @@ public class Ranking {
 		case 1: {
 			// VSM Ranking
 			for (Tweet tweet : tweets) {
-				tweet.setScore(calculateVSMScore(index, tweet, query));
+				tweet.setScore(calculateVSMScore(index, tweet, queryInfo));
+			}			
+			
+			for (Tweet tweet : tweets) {
+				double score = calculateVSMScore(index, tweet, queryInfo); 
+				tweet.setScore(score);
+				tweet.setScoreVSM(score);
+				
+				// Keeping only most relevant tweets
+				if (mostRelevant.size() < numResults) {
+					mostRelevant.add(tweet);
+					Collections.sort(mostRelevant);
+				}else {
+					if (score < searchThreshold) {
+						if (score > mostRelevant.get(mostRelevant.size()-1).getScore()) {
+							mostRelevant.remove(mostRelevant.size()-1);
+							mostRelevant.add(tweet);
+							Collections.sort(mostRelevant);
+						}
+					}
+				}
 			}
-
 			break;
 		}
 		case 2: {
@@ -155,8 +233,6 @@ public class Ranking {
 		}
 		}
 
-		Collections.sort(tweets);
-
-		return tweets;
+		return mostRelevant;
 	}
 }
