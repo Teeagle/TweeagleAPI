@@ -14,7 +14,8 @@ import javax.management.Query;
 public class Ranking {
 	
 
-	private static double searchThreshold = 0.24;
+	private static double searchThreshold = 0.3;
+	private static double searchThresholdTwitter = 0.3;
 	private static int numResults = 20;
 	
 	// Query Info
@@ -222,7 +223,21 @@ public class Ranking {
 			for (Tweet tweet : tweets) {
 				double score = calculateTweetBasedScore(tweet);
 				tweet.setScore(score);
-			}
+				
+				// Keeping only most relevant tweets
+				if (mostRelevant.size() < numResults) {
+					mostRelevant.add(tweet);
+					Collections.sort(mostRelevant);
+				}else {
+					if (score < searchThresholdTwitter) {
+						if (score > mostRelevant.get(mostRelevant.size()-1).getScore()) {
+							mostRelevant.remove(mostRelevant.size()-1);
+							mostRelevant.add(tweet);
+							Collections.sort(mostRelevant);
+						}
+					}
+				}
+			}			
 			break;
 		}
 		default: {
