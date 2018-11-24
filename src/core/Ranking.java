@@ -194,10 +194,7 @@ public class Ranking {
 			break;
 		}
 		case 1: {
-			// VSM Ranking
-			for (Tweet tweet : tweets) {
-				tweet.setScore(calculateVSMScore(index, tweet, queryInfo));
-			}			
+			// VSM Ranking		
 			
 			for (Tweet tweet : tweets) {
 				double score = calculateVSMScore(index, tweet, queryInfo); 
