@@ -95,8 +95,9 @@ public class TweeagleController {
 		System.out.println("Running Parser");
 
 		TweetParser parser = new TweetParser();
-		parser.parseFiles();
-
+		//parser.parseFiles(); // Exports Tweets from stream
+		parser.parseQuotes(); //  Exportes Tweets quoted in stream tweets (more metrics)
+		
 		ArrayList<Tweet> tweets = parser.getTweets();
 
 		System.out.println(tweets.size() + " tweets were parsed");
