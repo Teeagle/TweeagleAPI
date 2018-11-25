@@ -1,0 +1,343 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+
+    <link rel="stylesheet" type="text/css" href="style.css">
+
+    <title>Tweeagle</title>
+  </head>
+  <body id="tw-body">
+  	<header class="twg-header">
+	  	<nav class="navbar sticky-top navbar-light bg-light">
+		  <a class="navbar-brand" href="/TweeagleWeb/">Tweeagle</a>
+		  <i class="fas fa-ellipsis-h twg-btn-menu" onclick="window.location.href = 'about.html';"></i>
+		</nav>
+	</header>
+
+	<div id="main" class="container">
+		<div class="vertical-center-row">
+			<div class="row" align="center">
+		    	<div class="col">
+		      		
+		    	</div>
+		    	<div class="col-6">
+		      		<div class="text-center">
+					  <img src="imgs/tweeagle_logo.png" class="rounded mx-auto" alt="Tweeagle Logo" style="width: 200px; margin-bottom: 35px;">
+					</div>
+		    	</div>
+		    	<div class="col">
+		      		
+		    	</div>
+		  	</div>
+
+		  	<div class="row">
+		    	<div class="col">
+		      		
+		    	</div>
+		    	<div class="col-lg-10 col-10 text-center">
+		    		<h5><strong>Tweeagle is online</strong></h5>
+		      		<p><a target="_blank" href="http://localhost:8080/TweeagleWeb/index.html">Go to TweeagleWeb Home Page</a></p>
+					<br>
+		    	</div>
+		    	<div class="col">
+		      		
+		    	</div>
+		  	</div>
+
+
+
+		</div>
+	</div>
+	
+	<input type="hidden" id="mode" value="t">
+
+    <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+    	window.onload = function(){
+    		$("#results").css("display", "none");
+    		$("#tw-body").css("background-color", "#fff");
+    	};
+
+		function switchMode(nextMode){
+			if(nextMode=='p'){
+				$('#dynamic-btn').html('<button class="btn btn-outline-secondary twg-btn" type="button" id="button-addon2" onclick="phraseSearch()">Search</button>');
+				$('#dynamic-mode').html('<a class="twg-btn-sub" href="#" onclick="switchMode(\'t\')">Switch to Text Search</a>');
+				$('#mode').val('p');
+			}else{
+				$('#dynamic-btn').html('<button class="btn btn-outline-secondary twg-btn" type="button" id="button-addon2" onclick="textSearch()">Search</button>');
+				$('#dynamic-mode').html('<a class="twg-btn-sub" href="#" onclick="switchMode(\'p\')">Switch to Phrase Search</a>');
+				$('#mode').val('t');
+			}
+		}
+
+		function switchModeAfter(nextMode){
+			if(nextMode=='p'){
+				$('#dynamic-btn-after').html('<button class="btn btn-outline-secondary twg-btn" type="button" id="button-addon2" onclick="phraseSearchAfter()">Search</button>');
+				$('#dynamic-mode-after').html('<a class="twg-btn-sub" href="#" onclick="switchModeAfter(\'t\')">Switch to Text Search</a>');
+				$('#mode').val('pa');
+			}else{
+				$('#dynamic-btn-after').html('<button class="btn btn-outline-secondary twg-btn" type="button" id="button-addon2" onclick="textSearchAfter()">Search</button>');
+				$('#dynamic-mode-after').html('<a class="twg-btn-sub" href="#" onclick="switchModeAfter(\'p\')">Switch to Phrase Search</a>');
+				$('#mode').val('ta');
+			}
+		}
+
+		$(document).keypress(function(e) {
+			var mode = $('#mode').val();
+
+		    if(e.which == 13) {
+		    	if (mode == 'p'){
+		    		phraseSearch();		    		
+		    	}else if(mode == 't'){
+		    		textSearch();
+		    	}else if(mode =='pa'){
+		    		phraseSearchAfter();
+		    	}else{
+		    		textSearchAfter();
+		    	}
+		    }
+		});
+
+
+    	function textSearch(){
+    		$( "#main" ).fadeOut( "slow", function() {
+			    // Animation complete.
+			  
+	    		$("#tw-body").css("background-color", "#fafafa");
+	    		$('#mode').val('ta');
+	    		$("#results").css("display", "block");
+	    		$("#main").css("display", "none");
+	    		$("#result-set").html('');
+
+	    		$( ".tw-header-res" ).each(function() {
+				  $( this ).css("display", "inline-block");
+				});
+
+				var query = $("#query").val();
+
+				$.ajax({
+					type: "POST",
+					url: "http://localhost:8080/TweeagleCore/rest/search/text",
+					//crossDomain: true,
+					data: {
+						q: query,
+						r: $("input[name='rank-opt']:checked").val()
+					},
+					success: function(res) {
+
+						if(res==null){
+							$("#result-set").append('<br><br><h6 style="text-align: center;">No results found</h6>');
+						}
+
+						var res_count = 20;
+						$.each( res, function( key, tweet ) {
+
+							if(tweet.isVerified == false){
+								$("#result-set").append(
+							 		'<div class=\"row tw-item\"><div class=\"col-md-2\"></div><div class=\"col-md-8\"><div class=\"row\"><div class=\"col-md-4\"><div class=\"row col-md-12 tw-username\">@'+tweet.usertag+'</div><div class=\"row\"><div class=\"col-md-3\"><img class=\"tw-profile\" src='+tweet.userProfileImgURL+'></div><div class=\"col-md-9 tw-follow-holder\"><a href=\"https://twitter.com/'+tweet.usertag+'\"><button class="btn twg-btn-menu twg-btn" value="Follow" type="button">Follow</button></a></div></div><div class=\"row col-md-12\"><ul class=\"tw-info\"><li>Verified: <i class=\"fas fa-check tw-micon-unverified\"></i></li><li>Followers: '+tweet.userFollowersCnt+'</li></ul></div></div><div class=\"col-md-8 tweet\"><div class=\"row col-md-12 tw-content\">'+tweet.text+'</div><div class=\"row tw-metrics\"><div class=\"col-2\"><i class=\"fas fa-retweet tw-micon\"></i>'+tweet.retweetCnt+'</div><div class=\"col-2\"><i class=\"far fa-heart tw-micon\"></i>'+tweet.favoriteCnt+'</div><div class=\"col-2\"><i class=\"fas fa-reply tw-micon\"></i>'+tweet.replyCnt+'</div><div class=\"col-2\"><i class=\"fas fa-quote-right tw-micon\"></i>'+tweet.quoteCnt+'</div><div class=\"col-4 tw-score\"><i class=\"fas fa-fire tw-micon-score\"></i>'+tweet.score.toFixed(3)+'</div></div></div></div></div><div class=\"col-md-2\"></div></div>'
+							 	);
+							}else{
+								$("#result-set").append(
+							 		'<div class=\"row tw-item\"><div class=\"col-md-2\"></div><div class=\"col-md-8\"><div class=\"row\"><div class=\"col-md-4\"><div class=\"row col-md-12 tw-username\">@'+tweet.usertag+'</div><div class=\"row\"><div class=\"col-md-3\"><img class=\"tw-profile\" src='+tweet.userProfileImgURL+'></div><div class=\"col-md-9 tw-follow-holder\"><a href=\"https://twitter.com/'+tweet.usertag+'\"><button class="btn twg-btn-menu twg-btn" value="Follow" type="button">Follow</button></a></div></div><div class=\"row col-md-12\"><ul class=\"tw-info\"><li>Verified: <i class=\"fas fa-check tw-micon-verified\"></i></li><li>Followers: '+tweet.userFollowersCnt+'</li></ul></div></div><div class=\"col-md-8 tweet\"><div class=\"row col-md-12 tw-content\">'+tweet.text+'</div><div class=\"row tw-metrics\"><div class=\"col-2\"><i class=\"fas fa-retweet tw-micon\"></i>'+tweet.retweetCnt+'</div><div class=\"col-2\"><i class=\"far fa-heart tw-micon\"></i>'+tweet.favoriteCnt+'</div><div class=\"col-2\"><i class=\"fas fa-reply tw-micon\"></i>'+tweet.replyCnt+'</div><div class=\"col-2\"><i class=\"fas fa-quote-right tw-micon\"></i>'+tweet.quoteCnt+'</div><div class=\"col-4 tw-score\"><i class=\"fas fa-fire tw-micon-score\"></i>'+tweet.score.toFixed(3)+'</div></div></div></div></div><div class=\"col-md-2\"></div></div>'
+							 	);
+							}			
+						 	
+						   res_count = res_count - 1;
+						   if (res_count == 0){
+						   		return false; 
+						   }
+
+						});					 
+					},
+					error: function(res){
+						console.log(res);
+						console.log("res = " + res.responseText);
+					}
+				});
+			});
+    	}
+
+    	function textSearchAfter(){
+    		$( "#main" ).fadeOut( "slow", function() {
+			    // Animation complete.
+
+	    		$("#tw-body").css("background-color", "#fafafa");
+
+	    		$("#results").css("display", "block");
+	    		$("#main").css("display", "none");
+	    		$("#result-set").html('');
+
+	    		$( ".tw-header-res" ).each(function() {
+				  $( this ).css("display", "inline-block");
+				});
+
+				var query = $("#query-after").val();
+
+				$.ajax({
+					type: "POST",
+					url: "http://localhost:8080/TweeagleCore/rest/search/text",
+					//crossDomain: true,
+					data: {
+						q: query,
+						r: $("input[name='rank-opt-after']:checked").val()
+					},
+					success: function(res) {
+
+						if(res==null){
+							$("#result-set").append('<br><br><h6 style="text-align: center;">No results found</h6>');
+						}
+
+						var res_count = 20;
+						$.each( res, function( key, tweet ) {
+						  
+							if(tweet.isVerified == false){
+								$("#result-set").append(
+							 		'<div class=\"row tw-item\"><div class=\"col-md-2\"></div><div class=\"col-md-8\"><div class=\"row\"><div class=\"col-md-4\"><div class=\"row col-md-12 tw-username\">@'+tweet.usertag+'</div><div class=\"row\"><div class=\"col-md-3\"><img class=\"tw-profile\" src='+tweet.userProfileImgURL+'></div><div class=\"col-md-9 tw-follow-holder\"><a href=\"https://twitter.com/'+tweet.usertag+'\"><button class="btn twg-btn-menu twg-btn" value="Follow" type="button">Follow</button></a></div></div><div class=\"row col-md-12\"><ul class=\"tw-info\"><li>Verified: <i class=\"fas fa-check tw-micon-unverified\"></i></li><li>Followers: '+tweet.userFollowersCnt+'</li></ul></div></div><div class=\"col-md-8 tweet\"><div class=\"row col-md-12 tw-content\">'+tweet.text+'</div><div class=\"row tw-metrics\"><div class=\"col-2\"><i class=\"fas fa-retweet tw-micon\"></i>'+tweet.retweetCnt+'</div><div class=\"col-2\"><i class=\"far fa-heart tw-micon\"></i>'+tweet.favoriteCnt+'</div><div class=\"col-2\"><i class=\"fas fa-reply tw-micon\"></i>'+tweet.replyCnt+'</div><div class=\"col-2\"><i class=\"fas fa-quote-right tw-micon\"></i>'+tweet.quoteCnt+'</div><div class=\"col-4 tw-score\"><i class=\"fas fa-fire tw-micon-score\"></i>'+tweet.score.toFixed(3)+'</div></div></div></div></div><div class=\"col-md-2\"></div></div>'
+							 	);
+							}else{
+								$("#result-set").append(
+							 		'<div class=\"row tw-item\"><div class=\"col-md-2\"></div><div class=\"col-md-8\"><div class=\"row\"><div class=\"col-md-4\"><div class=\"row col-md-12 tw-username\">@'+tweet.usertag+'</div><div class=\"row\"><div class=\"col-md-3\"><img class=\"tw-profile\" src='+tweet.userProfileImgURL+'></div><div class=\"col-md-9 tw-follow-holder\"><a href=\"https://twitter.com/'+tweet.usertag+'\"><button class="btn twg-btn-menu twg-btn" value="Follow" type="button">Follow</button></a></div></div><div class=\"row col-md-12\"><ul class=\"tw-info\"><li>Verified: <i class=\"fas fa-check tw-micon-verified\"></i></li><li>Followers: '+tweet.userFollowersCnt+'</li></ul></div></div><div class=\"col-md-8 tweet\"><div class=\"row col-md-12 tw-content\">'+tweet.text+'</div><div class=\"row tw-metrics\"><div class=\"col-2\"><i class=\"fas fa-retweet tw-micon\"></i>'+tweet.retweetCnt+'</div><div class=\"col-2\"><i class=\"far fa-heart tw-micon\"></i>'+tweet.favoriteCnt+'</div><div class=\"col-2\"><i class=\"fas fa-reply tw-micon\"></i>'+tweet.replyCnt+'</div><div class=\"col-2\"><i class=\"fas fa-quote-right tw-micon\"></i>'+tweet.quoteCnt+'</div><div class=\"col-4 tw-score\"><i class=\"fas fa-fire tw-micon-score\"></i>'+tweet.score.toFixed(3)+'</div></div></div></div></div><div class=\"col-md-2\"></div></div>'
+							 	);
+							}
+
+						  res_count = res_count - 1;
+						   if (res_count == 0){
+						   		return false; 
+						   }
+						});					 
+					},
+					error: function(res){
+						console.log(res);
+						console.log("res = " + res.responseText);
+					}
+				});
+			});
+    	}
+
+
+
+    	function phraseSearch(){
+    		$( "#main" ).fadeOut( "slow", function() {
+			    // Animation complete.
+	    		$("#tw-body").css("background-color", "#fafafa");
+	    		$('#mode').val('ta');
+	    		$("#results").css("display", "block");
+	    		$("#main").css("display", "none");
+	    		$("#result-set").html('');
+
+	    		$( ".tw-header-res" ).each(function() {
+				  $( this ).css("display", "inline-block");
+				});
+
+				var query = $("#query").val();
+
+				$.ajax({
+					type: "POST",
+					url: "http://localhost:8080/TweeagleCore/rest/search/phrase",
+					//crossDomain: true,
+					data: {
+						q: query,
+						r: $("input[name='rank-opt']:checked").val()
+					},
+					success: function(res) {
+
+						if(res==null){
+							$("#result-set").append('<br><br><h6 style="text-align: center;">No results found</h6>');
+						}
+
+						var res_count = 20;
+						$.each( res, function( key, tweet ) {			
+
+						   if(tweet.isVerified == false){
+								$("#result-set").append(
+							 		'<div class=\"row tw-item\"><div class=\"col-md-2\"></div><div class=\"col-md-8\"><div class=\"row\"><div class=\"col-md-4\"><div class=\"row col-md-12 tw-username\">@'+tweet.usertag+'</div><div class=\"row\"><div class=\"col-md-3\"><img class=\"tw-profile\" src='+tweet.userProfileImgURL+'></div><div class=\"col-md-9 tw-follow-holder\"><a class=\"btn twg-btn twg-btn-menu\" href=\"https://twitter.com/'+tweet.usertag+'\">Follow</a></div></div><div class=\"row col-md-12\"><ul class=\"tw-info\"><li>Verified: <i class=\"fas fa-check tw-micon-unverified\"></i></li><li>Followers: '+tweet.userFollowersCnt+'</li></ul></div></div><div class=\"col-md-8 tweet\"><div class=\"row col-md-12 tw-content\">'+tweet.text+'</div><div class=\"row tw-metrics\"><div class=\"col-2\"><i class=\"fas fa-retweet tw-micon\"></i>'+tweet.retweetCnt+'</div><div class=\"col-2\"><i class=\"far fa-heart tw-micon\"></i>'+tweet.favoriteCnt+'</div><div class=\"col-2\"><i class=\"fas fa-reply tw-micon\"></i>'+tweet.replyCnt+'</div><div class=\"col-2\"><i class=\"fas fa-quote-right tw-micon\"></i>'+tweet.quoteCnt+'</div><div class=\"col-4 tw-score\"><i class=\"fas fa-fire tw-micon-score\"></i>'+tweet.score.toFixed(3)+'</div></div></div></div></div><div class=\"col-md-2\"></div></div>'
+							 	);
+							}else{
+								$("#result-set").append(
+							 		'<div class=\"row tw-item\"><div class=\"col-md-2\"></div><div class=\"col-md-8\"><div class=\"row\"><div class=\"col-md-4\"><div class=\"row col-md-12 tw-username\">@'+tweet.usertag+'</div><div class=\"row\"><div class=\"col-md-3\"><img class=\"tw-profile\" src='+tweet.userProfileImgURL+'></div><div class=\"col-md-9 tw-follow-holder\"><a class=\"btn twg-btn twg-btn-menu\" href=\"https://twitter.com/'+tweet.usertag+'\">Follow</a></div></div><div class=\"row col-md-12\"><ul class=\"tw-info\"><li>Verified: <i class=\"fas fa-check tw-micon-verified\"></i></li><li>Followers: '+tweet.userFollowersCnt+'</li></ul></div></div><div class=\"col-md-8 tweet\"><div class=\"row col-md-12 tw-content\">'+tweet.text+'</div><div class=\"row tw-metrics\"><div class=\"col-2\"><i class=\"fas fa-retweet tw-micon\"></i>'+tweet.retweetCnt+'</div><div class=\"col-2\"><i class=\"far fa-heart tw-micon\"></i>'+tweet.favoriteCnt+'</div><div class=\"col-2\"><i class=\"fas fa-reply tw-micon\"></i>'+tweet.replyCnt+'</div><div class=\"col-2\"><i class=\"fas fa-quote-right tw-micon\"></i>'+tweet.quoteCnt+'</div><div class=\"col-4 tw-score\"><i class=\"fas fa-fire tw-micon-score\"></i>'+tweet.score.toFixed(3)+'</div></div></div></div></div><div class=\"col-md-2\"></div></div>'
+							 	);
+							}
+
+						   res_count = res_count - 1;
+						   if (res_count == 0){
+						   		return false; 
+						   }
+						});					 
+					},
+					error: function(res){
+						console.log(res);
+						console.log("res = " + res.responseText);
+					}
+				});
+			});
+    	}
+
+    	function phraseSearchAfter(){
+    		$( "#main" ).fadeOut( "slow", function() {
+			    // Animation complete.
+	    		$("#tw-body").css("background-color", "#fafafa");
+
+	    		$("#results").css("display", "block");
+	    		$("#main").css("display", "none");
+	    		$("#result-set").html('');
+
+	    		$( ".tw-header-res" ).each(function() {
+				  $( this ).css("display", "inline-block");
+				});
+
+				var query = $("#query-after").val();
+
+				$.ajax({
+					type: "POST",
+					url: "http://localhost:8080/TweeagleCore/rest/search/phrase",
+					//crossDomain: true,
+					data: {
+						q: query,
+						r: $("input[name='rank-opt-after']:checked").val()
+					},
+					success: function(res) {
+
+						if(res==null){
+							$("#result-set").append('<br><br><h6 style="text-align: center;">No results found</h6>');
+						}
+
+						var res_count = 20;
+						$.each( res, function( key, tweet ) {
+						  
+							if(tweet.isVerified == false){
+								$("#result-set").append(
+							 		'<div class=\"row tw-item\"><div class=\"col-md-2\"></div><div class=\"col-md-8\"><div class=\"row\"><div class=\"col-md-4\"><div class=\"row col-md-12 tw-username\">@'+tweet.usertag+'</div><div class=\"row\"><div class=\"col-md-3\"><img class=\"tw-profile\" src='+tweet.userProfileImgURL+'></div><div class=\"col-md-9 tw-follow-holder\"><a class=\"btn twg-btn twg-btn-menu\" href=\"https://twitter.com/'+tweet.usertag+'\">Follow</a></div></div><div class=\"row col-md-12\"><ul class=\"tw-info\"><li>Verified: <i class=\"fas fa-check tw-micon-unverified\"></i></li><li>Followers: '+tweet.userFollowersCnt+'</li></ul></div></div><div class=\"col-md-8 tweet\"><div class=\"row col-md-12 tw-content\">'+tweet.text+'</div><div class=\"row tw-metrics\"><div class=\"col-2\"><i class=\"fas fa-retweet tw-micon\"></i>'+tweet.retweetCnt+'</div><div class=\"col-2\"><i class=\"far fa-heart tw-micon\"></i>'+tweet.favoriteCnt+'</div><div class=\"col-2\"><i class=\"fas fa-reply tw-micon\"></i>'+tweet.replyCnt+'</div><div class=\"col-2\"><i class=\"fas fa-quote-right tw-micon\"></i>'+tweet.quoteCnt+'</div><div class=\"col-4 tw-score\"><i class=\"fas fa-fire tw-micon-score\"></i>'+tweet.score.toFixed(3)+'</div></div></div></div></div><div class=\"col-md-2\"></div></div>'
+							 	);
+							}else{
+								$("#result-set").append(
+							 		'<div class=\"row tw-item\"><div class=\"col-md-2\"></div><div class=\"col-md-8\"><div class=\"row\"><div class=\"col-md-4\"><div class=\"row col-md-12 tw-username\">@'+tweet.usertag+'</div><div class=\"row\"><div class=\"col-md-3\"><img class=\"tw-profile\" src='+tweet.userProfileImgURL+'></div><div class=\"col-md-9 tw-follow-holder\"><a class=\"btn twg-btn twg-btn-menu\" href=\"https://twitter.com/'+tweet.usertag+'\">Follow</a></div></div><div class=\"row col-md-12\"><ul class=\"tw-info\"><li>Verified: <i class=\"fas fa-check tw-micon-verified\"></i></li><li>Followers: '+tweet.userFollowersCnt+'</li></ul></div></div><div class=\"col-md-8 tweet\"><div class=\"row col-md-12 tw-content\">'+tweet.text+'</div><div class=\"row tw-metrics\"><div class=\"col-2\"><i class=\"fas fa-retweet tw-micon\"></i>'+tweet.retweetCnt+'</div><div class=\"col-2\"><i class=\"far fa-heart tw-micon\"></i>'+tweet.favoriteCnt+'</div><div class=\"col-2\"><i class=\"fas fa-reply tw-micon\"></i>'+tweet.replyCnt+'</div><div class=\"col-2\"><i class=\"fas fa-quote-right tw-micon\"></i>'+tweet.quoteCnt+'</div><div class=\"col-4 tw-score\"><i class=\"fas fa-fire tw-micon-score\"></i>'+tweet.score.toFixed(3)+'</div></div></div></div></div><div class=\"col-md-2\"></div></div>'
+							 	);
+							}
+
+						  res_count = res_count - 1;
+						   if (res_count == 0){
+						   		return false; 
+						   }
+						});					 
+					},
+					error: function(res){
+						console.log(res);
+						console.log("res = " + res.responseText);
+					}
+				});
+			});
+    	}
+
+    </script>
+  </body>
+</html>
