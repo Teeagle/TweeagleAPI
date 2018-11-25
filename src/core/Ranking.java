@@ -140,11 +140,11 @@ public class Ranking {
 	public static double calculateTweetBasedScore(Tweet tweet) {
 		// Features that affect the Tweet Score
 		int verified = 0;
-		double retweets = Math.log10(tweet.getRetweetCnt());
-		double favorites = Math.log10(tweet.getFavoriteCnt());
-		double replies = Math.log10(tweet.getReplyCnt());
-		double quotes = Math.log10(tweet.getQuoteCnt());
-		double followers = Math.log10(tweet.getUserFollowersCnt());
+		double retweets = Math.log10(tweet.getRetweetCnt() + 1);
+		double favorites = Math.log10(tweet.getFavoriteCnt() + 1);
+		double replies = Math.log10(tweet.getReplyCnt() + 1);
+		double quotes = Math.log10(tweet.getQuoteCnt() + 1);
+		double followers = Math.log10(tweet.getUserFollowersCnt() + 1);
 
 		if (tweet.getIsVerified()) {
 			verified = 1;
@@ -154,8 +154,9 @@ public class Ranking {
 		double euc_sum = retweets*retweets + favorites*favorites + replies*replies
 				+ quotes*quotes + followers*followers;
 		if(euc_sum>0) {
-			total = Math.sqrt(quotes);
-		}		 
+			total = Math.sqrt(euc_sum);
+		}
+		
 		double score = 0;
 		// Empirical weights to the features
 		if (total > 0) {
