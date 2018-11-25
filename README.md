@@ -9,7 +9,7 @@ In the age of social media, issues like fake news and the presence of untrusted 
 
 ## How to Setup 
 
-1. [Download Tweeagle](https://drive.google.com/file/d/11or24yjUHF0d0u9PJ1gVqqb_FBbYnmSH/view?usp=drive_open)
+1. [Download Tweeagle](https://drive.google.com/open?id=1eFpFwb6Yb6AM9K7MU1ky3h7HfvIJPjPc)
 2. Deploy TweeagleCore.war on a TomCat server
 3. Change the *SERVICE_PATH* in *conf.txt* to the running directory of your server. 
 4. Run TweeagleCore.jar
