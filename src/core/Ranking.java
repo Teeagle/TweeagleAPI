@@ -149,7 +149,13 @@ public class Ranking {
 		if (tweet.getIsVerified()) {
 			verified = 1;
 		}
-		double total = retweets + favorites + replies + quotes + followers;
+		
+		double total =0;
+		double euc_sum = retweets*retweets + favorites*favorites + replies*replies
+				+ quotes*quotes + followers*followers;
+		if(euc_sum>0) {
+			total = Math.sqrt(quotes);
+		}		 
 		double score = 0;
 		// Empirical weights to the features
 		if (total > 0) {
